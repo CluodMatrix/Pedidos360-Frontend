@@ -17,6 +17,7 @@ import './css/dashboard.css';
 import './css/catalogo.css';
 import './css/pedidos.css';
 import './css/responsive.css';
+import './css/toast.css';
 
 const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -44,6 +45,17 @@ async function bootstrap() {
 
   try {
     await msalInstance.initialize();
+
+    // Procesar la respuesta del redirect ANTES de resolver la cuenta activa.
+    //
+    // Sin esto, "Cambiar cuenta" no funciona: la cuenta elegida en Microsoft
+    // todavia no esta en la cache cuando se resuelve la cuenta activa, asi
+    // que se elige la anterior (que queda ademas persistida como activa) y la
+    // app se queda mostrando el panel del usuario viejo.
+    const resultado = await msalInstance.handleRedirectPromise();
+    if (resultado?.account) {
+      msalInstance.setActiveAccount(resultado.account);
+    }
 
     const account = resolveActiveAccount(msalInstance, msalInstance.getAllAccounts());
     if (account !== msalInstance.getActiveAccount()) {

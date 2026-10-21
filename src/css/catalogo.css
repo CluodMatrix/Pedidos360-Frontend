@@ -1,4 +1,6 @@
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 15px; }
+/* Placeholder para productos sin imagen (creados desde el panel de Admin). */
+.product-media-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 16 / 10; border-radius: var(--radius); background: var(--gold-soft); color: var(--gold-light); font-size: 1.6rem; font-weight: 700; letter-spacing: .04em; }
 .product-card { position: relative; display: grid; min-height: 190px; align-content: start; gap: 13px; padding: 19px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
 .product-card:hover { transform: translateY(-2px); border-color: rgba(208, 160, 64, .5); box-shadow: 0 8px 22px rgba(0, 0, 0, .4); }
 .product-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
