@@ -28,6 +28,7 @@ import { useEffect } from 'react';
 import { RequireAuth } from './auth/RequireAuth';
 import { RequireRole } from './auth/RequireRole';
 import { AppShell } from './components/layout/AppShell';
+import { ToastProvider } from './components/ToastProvider';
 import { Landing } from './pages/Landing';
 import { CatalogoDemo } from './pages/CatalogoDemo';
 import { Inicio } from './pages/Inicio';
@@ -54,6 +55,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <ToastProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/catalogo-demo" element={<CatalogoDemo />} />
@@ -82,6 +84,7 @@ export default function App() {
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </ToastProvider>
 
     </BrowserRouter>
   );

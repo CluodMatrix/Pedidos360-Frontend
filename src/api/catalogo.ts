@@ -66,6 +66,18 @@
     return api.post<Producto>('/catalogo', producto);
   }
 
+  /**
+   * Catalogo de escaparate (la vista de compra).
+   *
+   * Es distinto del catalogo administrativo: el Cliente no puede leer
+   * `GET /catalogo` (403 por rol), pero si puede leer esta vista, que devuelve
+   * solo los datos publicos del producto y el stock REAL.
+   */
+  export async function listarCatalogoCompra(api: ApiClient): Promise<Producto[]> {
+    const respuesta = await api.get<unknown>('/catalogo/comprar');
+    return extraerProductos(respuesta);
+  }
+
   export function actualizarProducto(
     api: ApiClient,
     id: string | number,

@@ -8,12 +8,13 @@
 //
 // Esta pantalla NO es el catálogo administrativo: no usa GET /catalogo
 // (que el Cliente no tiene permitido) y no ofrece opciones de gestión.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
 
 import { useApi } from '../components/useApi';
 import { apiErrorMessage } from '../api/client';
+import { listarCatalogoCompra } from '../api/catalogo';
 import { crearPedido, type Pedido } from '../api/pedidos';
 import { PageHeader } from '../components/layout/PageHeader';
 import { LoadingState } from '../components/common/LoadingState';
@@ -62,6 +63,41 @@ export function Comprar() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmado, setConfirmado] = useState<Pedido | null>(null);
+  // Productos del catalogo REAL (endpoint /catalogo/comprar). Si el endpoint
+  // no responde, se usa la lista demo como respaldo para no dejar la pantalla
+  // vacia.
+  const [productos, setProductos] = useState<ProductoCompra[]>(PRODUCTOS_DEMO);
+  const [cargandoCatalogo, setCargandoCatalogo] = useState(true);
+
+  useEffect(() => {
+    if (!api) return undefined;
+    let vigente = true;
+    listarCatalogoCompra(api)
+      .then((datos) => {
+        if (!vigente || !datos.length) return;
+        // Se conservan las imagenes de la demo para los productos conocidos.
+        const imagenes = new Map(PRODUCTOS_DEMO.map((p) => [p.id, p.imagen]));
+        setProductos(
+          datos.map((p) => ({
+            id: String(p.id),
+            nombre: p.nombre,
+            descripcion: p.descripcion,
+            precio: p.precio,
+            stock: p.stock,
+            imagen: imagenes.get(String(p.id)) ?? '',
+          })),
+        );
+      })
+      .catch(() => {
+        /* se mantiene la lista demo */
+      })
+      .finally(() => {
+        if (vigente) setCargandoCatalogo(false);
+      });
+    return () => {
+      vigente = false;
+    };
+  }, [api]);
 
   const enCarrito = (id: string) => carrito.find((linea) => linea.producto.id === id);
 
@@ -142,20 +178,26 @@ export function Comprar() {
       <PageHeader
         eyebrow="Comprar"
         title="Productos disponibles"
-        subtitle="Productos de demostración sincronizados con el seed del backend. El pedido se crea con el backend real."
+        subtitle="Catálogo del backend con el stock real. El pedido se crea contra la base de datos."
       />
 
       <div className="product-grid">
-        {PRODUCTOS_DEMO.map((producto) => {
+        {productos.map((producto) => {
           const linea = enCarrito(producto.id);
           return (
             <article className="product-card comprar-card" key={producto.id}>
               <div className="product-media">
-                <img src={producto.imagen} alt={producto.nombre} />
+                {producto.imagen ? (
+                  <img src={producto.imagen} alt={producto.nombre} />
+                ) : (
+                  <span className="product-media-placeholder" aria-hidden="true">
+                    {producto.nombre.slice(0, 2).toUpperCase()}
+                  </span>
+                )}
               </div>
               <div className="product-card-heading">
                 <div>
-                  <p className="card-overline">Catálogo demo</p>
+                  <p className="card-overline">{cargandoCatalogo ? 'Cargando' : 'Catálogo'}</p>
                   <h2>{producto.nombre}</h2>
                 </div>
                 <span className={producto.stock > 0 ? 'stock-badge' : 'stock-badge is-empty'}>
@@ -193,7 +235,11 @@ export function Comprar() {
             <div className="carrito-lineas">
               {carrito.map(({ producto, cantidad }) => (
                 <div className="carrito-linea" key={producto.id}>
-                  <img className="carrito-thumb" src={producto.imagen} alt="" />
+                  {producto.imagen ? (
+                    <img className="carrito-thumb" src={producto.imagen} alt="" />
+                  ) : (
+                    <span className="carrito-thumb product-media-placeholder" aria-hidden="true" />
+                  )}
                   <div className="carrito-info">
                     <strong>{producto.nombre}</strong>
                     <small>{formatter.format(producto.precio)} c/u</small>
