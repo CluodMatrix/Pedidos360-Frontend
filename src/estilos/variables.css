@@ -1,0 +1,49 @@
+:root {
+  font-family: "Aptos", "Segoe UI", sans-serif;
+  color: #f4ecdd;
+  background: #0d0a07;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+
+  /* Acentos dorados (paleta Colores) */
+  --gold: #d0a040;
+  --gold-light: #f0e0c0;
+  --gold-bright: #f0e070;
+  --gold-deep: #b07010;
+  --gold-soft: rgba(208, 160, 64, .16);
+
+  --sidebar-bg: #16100b;
+  --sidebar-deep: #100b07;
+  --sidebar-text: #eadbc0;
+  --sidebar-muted: #a08a6a;
+
+  --primary: #a93030;
+  --primary-hover: #8f2424;
+  --primary-soft: rgba(169, 48, 48, .16);
+  --primary-gradient: linear-gradient(135deg, #c13b3b, #8f2020);
+
+  --surface: #1c1510;
+  --surface-alt: #251c13;
+  --background: #0d0a07;
+  --text-primary: #f4ecdd;
+  --text-secondary: #cbb894;
+  --border: #3a2c1d;
+  --border-strong: #54401f;
+
+  --success: #6fbd8f;
+  --success-bg: rgba(63, 145, 98, .18);
+  --warning: #d99f3a;
+  --warning-bg: rgba(217, 159, 58, .16);
+  --danger: #e28181;
+  --danger-bg: rgba(199, 77, 90, .16);
+  --info: #9db9e8;
+  --info-bg: rgba(53, 116, 185, .2);
+  --violet: #a597e0;
+
+  --radius: 8px;
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, .38);
+  --shadow-float: 0 24px 60px rgba(0, 0, 0, .55);
+}

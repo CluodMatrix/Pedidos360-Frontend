@@ -1,0 +1,25 @@
+.create-order-panel { display: grid; gap: 18px; padding: 21px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-alt); }
+.create-order-heading { display: flex; align-items: center; gap: 12px; }
+.create-order-heading h2 { margin: 0 0 3px; font-size: 16px; }
+.create-order-heading p { margin: 0; color: var(--text-secondary); font-size: 11px; }
+.create-order-mark { display: grid; width: 39px; height: 39px; place-items: center; border-radius: 8px; background: var(--primary); color: white; font-size: 22px; }
+.order-form { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(110px, .45fr) auto; align-items: end; gap: 12px; }
+.quantity-field { max-width: 160px; }
+.orders-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); align-items: start; gap: 15px; }
+.order-card { display: grid; gap: 15px; padding: 19px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow-card); }
+.order-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.order-card-header h2 { margin: 0; font-size: 17px; }
+.order-card-header .card-overline { margin-bottom: 4px; }
+.order-meta { display: grid; gap: 8px; color: var(--text-secondary); font-size: 11px; }
+.order-meta > span { display: flex; align-items: center; gap: 7px; }
+.order-meta svg { flex: 0 0 auto; color: var(--sidebar-muted); }
+.order-meta strong { margin-right: 2px; color: var(--text-secondary); font-weight: 700; }
+.order-items { padding-top: 13px; border-top: 1px solid var(--border); }
+.order-section-label { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; color: var(--text-secondary); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+.order-item { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; color: var(--text-primary); font-size: 12px; }
+.order-item span:last-child { flex: 0 0 auto; color: var(--text-secondary); }
+.order-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 11px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 11px; }
+.order-card-footer strong { color: var(--text-primary); font-size: 17px; }
+.order-transitions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 10px; }
+.transition-button { min-height: 34px; padding: 0 10px; background: var(--primary-soft); color: var(--primary); font-size: 11px; }
+.transition-button:hover:not(:disabled) { background: rgba(169, 48, 48, .28); }

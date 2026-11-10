@@ -1,0 +1,512 @@
+/* ========================================================================
+   PEDIDOS360 — DOS PORTADAS NEÓN
+   Archivo: src/estilos/landing.css
+   ========================================================================
+
+   CONEXIÓN: solo afecta a las clases usadas en inicio/Landing.tsx.
+   NO cambia Microsoft Entra, AWS, DynamoDB ni los permisos de usuarios.
+
+   PORTADA 1: .welcome-screen--guest  = visitante, tonos rosa/fucsia.
+   PORTADA 2: .welcome-screen--logged = sesión iniciada, azul/violeta/cian.
+
+   VOCABULARIO:
+   object-fit: contain = muestra la imagen entera, sin recortes.
+   object-fit: cover   = llena el área, puede recortar los bordes.
+   overlay = capa de color sobre una imagen.
+   glow = brillo; hover = estado al pasar el mouse.
+   responsive = el diseño se adapta a celulares/tablets.
+   clamp(mín, flexible, máx) = tamaño que crece con límites.
+*/
+
+/* 1. BASE COMPARTIDA: sirve para las DOS portadas ------------------------ */
+.welcome-screen {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: clamp(14px, 2.4vh, 25px) clamp(20px, 5.6vw, 98px) 20px;
+  color: #fff7fd;
+  font-family: 'Segoe UI', 'Trebuchet MS', sans-serif;
+}
+
+/* Las imágenes llenan su propia capa y NO interfieren con los botones. */
+.welcome-screen .welcome-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Al trabajar con imágenes horizontales, contain evita agrandarlas. */
+.welcome-screen .welcome-hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  object-position: center center;
+  filter: saturate(1.05);
+}
+
+/* El texto debe estar POR DELANTE de la ilustración y los degradados. */
+.welcome-screen .welcome-topbar,
+.welcome-screen .welcome-layout,
+.welcome-screen {
+  position: relative;
+  z-index: 2;
+}
+
+/* 2. TEMA ROSADO: portada SIN sesión ------------------------------------ */
+.welcome-screen--guest {
+  --welcome-pink: #ff348d;
+  --welcome-fuchsia: #fb39d1;
+  --welcome-purple: #a665ff;
+  --welcome-orange: #ffad72;
+  background: radial-gradient(ellipse at 72% 52%, #131d5b 0%, #0a071e 64%);
+}
+
+/* Oscurece sobre todo a la izquierda, donde irá el texto de visitantes. */
+.welcome-screen--guest::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(10, 5, 27, .96) 0%,
+    rgba(12, 5, 30, .91) 20%,
+    rgba(13, 5, 32, .72) 36%,
+    rgba(13, 5, 32, .27) 54%,
+    transparent 80%);
+}
+
+.welcome-screen--guest::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(0deg, rgba(8, 5, 23, .38), transparent 19%, transparent 88%);
+}
+
+/* Logo oficial: ya contiene el nombre, no agregamos texto duplicado. */
+.welcome-topbar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+  min-height: 98px;
+}
+
+.welcome-brand-logo {
+  display: block;
+  width: clamp(110px, 9vw, 148px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(255, 48, 151, .39));
+}
+
+.welcome-brand-caption {
+  max-width: 188px;
+  color: #ffd9ed;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.5;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+/* Texto para visitantes: permanece a la IZQUIERDA. */
+.welcome-layout {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 18px 0 30px;
+}
+
+.welcome-copy {
+  width: min(100%, 560px);
+  max-width: 47%;
+  padding: 12px 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .24);
+}
+
+/* Etiqueta pequeña sobre el título: «SISTEMA DE PEDIDOS». */
+.welcome-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 23px;
+  padding: 10px 15px;
+  border: 1px solid rgba(255, 100, 192, .74);
+  border-radius: 999px;
+  background: linear-gradient(110deg, rgba(86, 14, 96, .67), rgba(38, 15, 82, .60));
+  box-shadow: 0 0 18px rgba(252, 44, 166, .23);
+  color: #fff0fa;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  backdrop-filter: blur(7px);
+}
+.welcome-kicker svg { color: #ffac78; }
+
+.welcome-copy h1 {
+  margin: 0 0 24px;
+  color: #fff5ff;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(39px, 4.25vw, 72px);
+  font-style: italic;
+  font-weight: 850;
+  line-height: 1.09;
+  letter-spacing: -.053em;
+  text-wrap: balance;
+  text-shadow: 0 0 25px rgba(255, 144, 220, .13);
+}
+
+.welcome-copy h1 span {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  white-space: nowrap;
+  background: linear-gradient(105deg, #ffc184 0%, #ff8c96 33%, #ff478e 70%, #f444d4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Trazo neón debajo de la segunda línea del título. */
+.welcome-copy h1 span::after {
+  position: absolute;
+  bottom: -9px;
+  left: 31%;
+  width: 67%;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #ff78c2 22%, #ff238d 76%, transparent);
+  box-shadow: 0 0 13px rgba(255, 38, 150, .75);
+  content: '';
+  transform: rotate(-2deg);
+}
+
+.welcome-description {
+  max-width: 460px;
+  margin: 0 0 27px;
+  color: #f5d5eb;
+  font-size: clamp(14px, 1.03vw, 16px);
+  line-height: 1.75;
+}
+
+/* 3. BOTONES COMPARTIDOS: todos siguen siendo elementos reales de React. */
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.welcome-screen .welcome-button,
+.welcome-screen .welcome-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 51px;
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.35;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.welcome-screen--guest .welcome-button {
+  border: 1px solid rgba(255, 181, 212, .93);
+  background: linear-gradient(115deg, #fe4175, #fa2c96 65%, #d927bd);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 46, 136, .42), 0 11px 27px rgba(111, 7, 84, .3), inset 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+.welcome-screen--guest .welcome-secondary-button {
+  border: 1px solid rgba(210, 124, 255, .72);
+  background: linear-gradient(115deg, rgba(67, 19, 98, .75), rgba(66, 12, 75, .58));
+  color: #ffe8f8;
+  box-shadow: 0 0 15px rgba(177, 61, 255, .17);
+  backdrop-filter: blur(11px);
+}
+
+.welcome-screen .welcome-button:hover:not(:disabled),
+.welcome-screen .welcome-secondary-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  filter: brightness(1.09);
+}
+
+.welcome-screen .welcome-button:focus-visible,
+.welcome-screen .welcome-secondary-button:focus-visible,
+.welcome-screen .welcome-demo-link:focus-visible {
+  outline: 3px solid #8ef0ff;
+  outline-offset: 4px;
+}
+
+.welcome-screen .welcome-button:disabled,
+.welcome-screen .welcome-secondary-button:disabled { opacity: .65; cursor: wait; }
+
+.welcome-security {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 17px 0 0;
+  color: #f2c5e6;
+  font-size: 11px;
+}
+.welcome-security svg { flex-shrink: 0; color: #ffb27f; }
+.welcome-screen .inline-error { margin-top: 14px; }
+
+.welcome-demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #ffbbeb;
+  font-weight: 750;
+  text-decoration: none;
+}
+.welcome-demo-link:hover { color: #fff2ff; text-decoration: underline; }
+
+/* 4. TEMA AZUL/VIOLETA: portada CON sesión ------------------------------ */
+.welcome-screen--logged {
+  --welcome-pink: #ff49b8;
+  --welcome-blue: #20dfff;
+  --welcome-purple: #9b6aff;
+  --welcome-orange: #ffb16c;
+  background:
+    radial-gradient(ellipse at 24% 40%, rgba(33, 30, 131, .70), transparent 67%),
+    radial-gradient(ellipse at 87% 45%, rgba(38, 89, 195, .32), transparent 68%),
+    linear-gradient(112deg, #150b42, #0e174d 65%, #0d1f68);
+}
+
+/* La oficina se sitúa desde la IZQUIERDA, sin forzar su ampliación.
+   «contain» conserva el logo dibujado y los gatitos enteros.
+   En monitores muy panorámicos, la derecha se completa con degradado. */
+.welcome-screen--logged .welcome-hero-image {
+  object-fit: contain;
+  object-position: left center;
+  filter: saturate(1.1) brightness(.96);
+}
+
+/* A diferencia de la portada rosa, el texto se coloca a la DERECHA.
+   El degradado azul oscuro mejora la lectura sin tapar a los gatitos. */
+.welcome-screen--logged::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(10, 14, 56, .02) 43%,
+    rgba(9, 14, 55, .26) 58%,
+    rgba(8, 17, 63, .56) 70%,
+    rgba(9, 21, 70, .77) 100%);
+}
+
+.welcome-screen--logged::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(0deg,
+    rgba(4, 8, 37, .30), transparent 16%, transparent 91%, rgba(7, 10, 42, .13));
+}
+
+/* Como la oficina ya trae el logotipo ilustrado, la cabecera en esta
+   portada solo muestra una pequeña señal de sesión iniciada a la derecha. */
+.welcome-topbar--logged {
+  justify-content: flex-end;
+}
+.welcome-session-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid rgba(94, 222, 255, .50);
+  border-radius: 999px;
+  background: rgba(9, 21, 79, .52);
+  box-shadow: 0 0 20px rgba(36, 183, 255, .13);
+  color: #d9faff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  backdrop-filter: blur(9px);
+}
+.welcome-session-label svg { color: #7af6ff; }
+
+/* Ubica el título y los botones en el área libre de la imagen. */
+.welcome-screen--logged .welcome-layout { justify-content: flex-end; }
+.welcome-screen--logged .welcome-copy {
+  width: min(100%, 525px);
+  max-width: 43%;
+  margin-right: clamp(0px, 1.5vw, 20px);
+  padding: clamp(16px, 2vw, 28px);
+  border: 1px solid rgba(117, 183, 255, .14);
+  border-radius: 24px;
+  background: linear-gradient(140deg, rgba(13, 23, 75, .45), rgba(14, 13, 80, .24));
+  box-shadow: 0 20px 65px rgba(3, 8, 42, .2);
+  backdrop-filter: blur(7px);
+}
+.welcome-screen--logged .welcome-kicker {
+  border-color: rgba(98, 215, 255, .68);
+  background: linear-gradient(115deg, rgba(13, 82, 166, .50), rgba(69, 23, 147, .52));
+  box-shadow: 0 0 21px rgba(41, 210, 255, .18);
+  color: #e1faff;
+}
+.welcome-screen--logged .welcome-kicker svg { color: #72f7ff; }
+
+.welcome-screen--logged .welcome-copy h1 {
+  font-size: clamp(39px, 4.1vw, 68px);
+  color: #fff8ff;
+  text-shadow: 0 0 35px rgba(78, 210, 255, .18);
+}
+.welcome-screen--logged .welcome-copy h1 span {
+  background: linear-gradient(98deg, #80f1ff 0%, #92baff 28%, #d390ff 65%, #ff79d6 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.welcome-screen--logged .welcome-copy h1 span::after {
+  left: 16%;
+  width: 81%;
+  background: linear-gradient(90deg, transparent, #40e7ff 22%, #c95aff 73%, transparent);
+  box-shadow: 0 0 13px rgba(38, 222, 255, .78);
+}
+.welcome-screen--logged .welcome-description { color: #e3e8ff; }
+
+/* Botón principal cálido para contrastar con el fondo azul-violeta. */
+.welcome-screen--logged .welcome-button {
+  border: 1px solid rgba(255, 220, 152, .90);
+  background: linear-gradient(112deg, #ffba48 0%, #ff6c77 48%, #f02cbd 100%);
+  box-shadow: 0 0 23px rgba(255, 109, 135, .36), 0 9px 28px rgba(86, 14, 123, .36);
+  color: #fff;
+}
+.welcome-screen--logged .welcome-secondary-button {
+  border: 1px solid rgba(110, 220, 255, .80);
+  background: linear-gradient(116deg, rgba(20, 68, 149, .55), rgba(82, 35, 155, .55));
+  box-shadow: 0 0 17px rgba(39, 192, 255, .19);
+  color: #e5f8ff;
+  backdrop-filter: blur(11px);
+}
+.welcome-screen--logged .welcome-security { color: #c9e3ff; }
+.welcome-screen--logged .welcome-security svg { color: #82f1ff; }
+.welcome-screen--logged { color: #c5e0ff; }
+.welcome-screen--logged .welcome-demo-link { color: #8befff; }
+
+/* 5. PANTALLAS MEDIANAS ----------------------------------------------- */
+@media (max-width: 1150px) {
+  .welcome-screen { padding-inline: clamp(20px, 4vw, 48px); }
+  .welcome-copy { max-width: 54%; }
+  .welcome-copy h1 { font-size: clamp(39px, 5.1vw, 61px); }
+  .welcome-brand-caption { display: none; }
+  .welcome-screen--logged .welcome-copy { max-width: 48%; }
+  .welcome-screen--logged .welcome-copy h1 { font-size: clamp(36px, 4.9vw, 58px); }
+}
+
+/* 6. CELULARES: texto arriba, ilustración abajo -------------------------- */
+
+/* ==========================================================
+   PEDIDOS360 — PORTADA CON SESIÓN A PANTALLA COMPLETA
+
+   QUÉ HACE:
+   - Evita el desplazamiento vertical en computadores.
+   - Ajusta la segunda portada al alto de la ventana.
+   - Conserva la imagen completa de los gatitos.
+   - No modifica la primera portada ni la autenticación.
+
+   VOCABULARIO:
+   viewport = área visible del navegador.
+   overflow = contenido que sobresale.
+   flex = distribución flexible de elementos.
+   ========================================================== */
+
+@media (min-width: 701px) {
+
+  /* 1. La segunda portada tendrá la altura exacta
+        de la ventana del navegador. */
+  .welcome-screen--logged {
+    height: 100dvh;
+    min-height: 0;
+    max-height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* 2. El contenido central utiliza solamente
+        el espacio disponible, sin alargar la página. */
+  .welcome-screen--logged .welcome-layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* 3. Reducimos un poquito el espacio del encabezado. */
+  .welcome-screen--logged .welcome-topbar {
+    min-height: clamp(48px, 8vh, 80px);
+  }
+
+  /* 4. La tarjeta de bienvenida será más compacta. */
+  .welcome-screen--logged .welcome-copy {
+    padding: clamp(12px, 1.8vh, 22px);
+  }
+
+  .welcome-screen--logged .welcome-kicker {
+    margin-bottom: 14px;
+  }
+
+  /* 5. Ajustamos el título para que no ocupe tanto alto. */
+  .welcome-screen--logged .welcome-copy h1 {
+    font-size: clamp(35px, 3.6vw, 62px);
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+
+  .welcome-screen--logged .welcome-description {
+    margin-bottom: 18px;
+  }
+
+  /* 6. La ilustración mantiene sus proporciones. */
+  .welcome-screen--logged .welcome-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  /* 7. El pie no empuja el contenido hacia abajo. */
+  .welcome-screen--logged .welcome-footer {
+    flex-shrink: 0;
+  }
+}
+
+
+@media (max-width: 430px) {
+  .welcome-actions { flex-direction: column; align-items: stretch; }
+  .welcome-copy h1,
+  .welcome-screen--logged .welcome-copy h1 { font-size: clamp(32px, 8.5vw, 42px); }
+  .welcome-layout { padding-bottom: 250px; }
+  .welcome-screen--logged .welcome-art { height: 42%; }
+}
+
+/* Accesibilidad: si la persona prefiere menos movimiento, se respeta. */
+@media (prefers-reduced-motion: reduce) {
+  .welcome-screen .welcome-button,
+  .welcome-screen .welcome-secondary-button { transition: none; }
+}

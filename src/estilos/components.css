@@ -1,0 +1,341 @@
+/*
+ * ================================================================
+ * PEDIDOS360 — COMPONENTES VISUALES REUTILIZABLES
+ * Archivo: src/estilos/components.css
+ * ================================================================
+ *
+ * QUÉ ESTILIZA:
+ * Botones, iconos, pantallas de carga/error, estado vacío, etiquetas,
+ * formulario de perfil y tarjetas de diagnóstico de permisos.
+ *
+ * CONEXIONES: Este CSS lo importa main.tsx. Los componentes usan
+ * className para recibir estas reglas; no existen llamadas a AWS aquí.
+ *
+ * IMPORTANTE: dejamos los estilos compartidos originales para NO romper
+ * Catálogo ni Pedidos. Al final añadimos mejoras EXCLUSIVAS para el
+ * administrador con el selector .app-shell .admin-dashboard.
+ *
+ * VOCABULARIO:
+ * hover = al pasar el cursor; disabled = deshabilitado;
+ * border = borde; shadow = sombra; grid = cuadrícula;
+ * focus-visible = foco visible del teclado; responsive = adaptable.
+ */
+
+/* BLOQUE 1: componentes compartidos del frontend (sin cambios funcionales). */
+.primary-button, .secondary-button, .danger-button, .transition-button { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; gap: 8px; padding: 0 15px; border: 1px solid transparent; border-radius: 6px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; transition: background .16s ease, border-color .16s ease, transform .16s ease; }
+.primary-button { background: var(--primary); color: white; box-shadow: 0 2px 5px rgba(143, 32, 32, .3); }
+.primary-button:hover:not(:disabled) { transform: translateY(-1px); background: var(--primary-hover); }
+.secondary-button { border-color: var(--border); background: var(--surface); color: var(--text-primary); }
+.secondary-button:hover:not(:disabled) { border-color: rgba(208, 160, 64, .55); background: var(--surface-alt); }
+.danger-button { background: var(--danger); color: white; }
+.danger-button:hover:not(:disabled) { background: #ae3943; }
+.icon-button { display: inline-grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-secondary); cursor: pointer; }
+.icon-button:hover:not(:disabled) { border-color: rgba(208, 160, 64, .55); background: var(--surface-alt); color: var(--primary); }
+.danger-action:hover:not(:disabled) { border-color: rgba(226, 129, 129, .5); background: var(--danger-bg); color: var(--danger); }
+.text-button { padding: 0; border: 0; background: transparent; color: var(--primary); font-size: 12px; font-weight: 700; cursor: pointer; }
+.text-button:hover { text-decoration: underline; }
+.danger-text { color: var(--danger); }
+.loading-indicator { width: 20px; height: 20px; border: 2px solid rgba(208, 160, 64, .25); border-top-color: var(--primary); border-radius: 50%; animation: spin .7s linear infinite; }
+.state-panel { display: flex; max-width: 100%; align-items: center; gap: 12px; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); color: var(--text-secondary); }
+.state-panel p { margin: 0; }
+.state-info { border-color: rgba(217, 159, 58, .35); background: rgba(217, 159, 58, .1); color: #e6c067; }
+.state-error { border-color: rgba(226, 129, 129, .35); background: rgba(199, 77, 90, .1); color: var(--danger); }
+.state-success { border-color: rgba(111, 189, 143, .35); background: rgba(63, 145, 98, .12); color: var(--success); }
+.security-note { color: var(--text-secondary); font-size: 11px; }
+.form-success { color: var(--success); font-size: 12px; font-weight: 700; }
+.error-message { color: var(--danger); font-size: 12px; }
+.loading-state { color: var(--text-secondary); }
+.empty-state { display: grid; justify-items: center; gap: 7px; padding: 55px 24px; border: 1px dashed rgba(208, 160, 64, .28); border-radius: var(--radius); background: rgba(255, 255, 255, .02); text-align: center; }
+.empty-state h2 { margin: 8px 0 0; font-size: 16px; }
+.empty-state p { max-width: 420px; margin: 0; color: var(--text-secondary); }
+.empty-state-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 12px; background: var(--primary-soft); color: var(--primary); }
+.error-state { display: flex; align-items: flex-start; gap: 12px; padding: 17px; border: 1px solid rgba(226, 129, 129, .4); border-radius: var(--radius); background: rgba(199, 77, 90, .08); color: var(--danger); }
+.error-state h2 { margin-bottom: 4px; font-size: 14px; }
+.error-state p { margin: 0 0 8px; color: #e0a9a9; }
+.api-error-details { margin: 10px 0; color: var(--text-secondary); font-size: 11px; }
+.api-error-details summary { width: fit-content; cursor: pointer; font-weight: 700; }
+.api-error-details pre { max-height: 280px; overflow: auto; padding: 12px; border: 1px solid var(--border); border-radius: 5px; background: #140f0a; color: var(--text-primary); font-size: 10px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.status-badge { display: inline-flex; width: fit-content; min-height: 25px; align-items: center; padding: 3px 9px; border: 1px solid transparent; border-radius: 5px; background: rgba(205, 215, 226, .14); color: #c9d3e0; font-size: 11px; font-weight: 750; white-space: nowrap; }
+.status-creado { background: rgba(205, 215, 226, .14); color: #c9d3e0; }
+.status-aceptado { background: var(--warning-bg); color: var(--warning); }
+.status-en_preparacion { background: var(--info-bg); color: var(--info); }
+.status-despachado { background: rgba(165, 151, 224, .18); color: var(--violet); }
+.status-entregado { background: var(--success-bg); color: var(--success); }
+.status-cancelado { background: var(--danger-bg); color: var(--danger); }
+.role-chip { display: inline-flex; width: fit-content; padding: 5px 10px; border: 1px solid rgba(208, 160, 64, .35); border-radius: 99px; background: rgba(208, 160, 64, .1); color: var(--gold-light); font-size: 11px; font-weight: 750; }
+.profile-panel, .profile-claims { display: grid; gap: 24px; }
+.profile-heading { display: flex; align-items: center; gap: 15px; }
+.profile-heading h2 { margin: 0 0 4px; }
+.profile-avatar { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 50%; background: var(--primary-soft); color: var(--primary); font-size: 20px; font-weight: 800; }
+.profile-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; margin: 0; border-top: 1px solid var(--border); }
+.profile-details > div { min-width: 0; padding: 15px 0; border-bottom: 1px solid var(--border); }
+.profile-details dt { margin-bottom: 4px; color: var(--text-secondary); font-size: 11px; }
+.profile-details dd { margin: 0; overflow-wrap: anywhere; color: var(--text-primary); font-weight: 650; }
+.profile-details-compact { grid-template-columns: 1fr; }
+.token-surface { display: grid; gap: 12px; }
+.token-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.token-grid > div { display: grid; min-width: 0; gap: 5px; padding: 12px; border-radius: 5px; background: #17110c; }
+.token-grid span { color: var(--text-secondary); font-size: 11px; font-weight: 700; }
+.token-grid code, .token-details pre { overflow-wrap: anywhere; white-space: pre-wrap; color: #e6d9bb; font-size: 11px; }
+.token-details { margin-top: 12px; }
+.token-details summary { width: fit-content; color: var(--primary); cursor: pointer; font-size: 12px; font-weight: 700; }
+.token-details pre { max-height: 180px; overflow: auto; padding: 12px; background: #17110c; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/*
+ * ================================================================
+ * BLOQUE 2 — AJUSTES PASTEL SOLO PARA EL PANEL DE ADMINISTRACIÓN
+ * ================================================================
+ *
+ * El selector .admin-dashboard aparece en src/inicio/PanelAdmin.tsx.
+ * Limitar el alcance evita cambiar visualmente /catalogo o /pedidos.
+ * Las reglas base oscuras que usan otras pantallas siguen disponibles.
+ */
+
+/* El panel muestra errores legibles en fondos claros. */
+.app-shell .admin-dashboard .error-state,
+.app-shell .admin-dashboard .state-panel.state-error {
+  border: 1px solid rgba(233, 113, 151, .5);
+  border-radius: 18px;
+  background: #fff0f5;
+  color: #8e2b5e;
+  box-shadow: 0 7px 18px rgba(158, 80, 135, .08);
+}
+.app-shell .admin-dashboard .error-state h2,
+.app-shell .admin-dashboard .state-panel.state-error h2 { color: #7c2452; }
+.app-shell .admin-dashboard .error-state p,
+.app-shell .admin-dashboard .state-panel.state-error p { color: #843a65; }
+.app-shell .admin-dashboard .error-state > svg { flex: 0 0 auto; color: #b72d6b; }
+.app-shell .admin-dashboard .error-state .text-button {
+  color: #872cba;
+  font-weight: 800;
+}
+.app-shell .admin-dashboard .state-panel.loading-state {
+  border: 1px solid rgba(159, 119, 208, .2);
+  border-radius: 18px;
+  background: rgba(255,255,255,.68);
+  color: #60478c;
+}
+.app-shell .admin-dashboard .loading-indicator {
+  border-color: #dfc8fc;
+  border-top-color: #a05be6;
+}
+
+/* ================================================================
+ * BLOQUE 3 — INSPECTOR DE TOKEN DE PANELADMIN
+ * ================================================================
+ *
+ * Clases de src/usuarios/TokenInspector.tsx. El contenedor exterior,
+ * .admin-token-section, ya ocupa todo el ancho desde dashboard.css.
+ */
+.app-shell .admin-dashboard .admin-token-section > .token-inspector {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 20px;
+}
+
+/* Cabecera: icono, título y botón sin apretarse unos contra otros. */
+.app-shell .admin-dashboard .token-inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.app-shell .admin-dashboard .token-inspector-identidad {
+  display: flex;
+  flex: 1 1 360px;
+  align-items: center;
+  min-width: 0;
+  gap: 16px;
+}
+.app-shell .admin-dashboard .token-inspector-emblema {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  flex: 0 0 62px;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.95);
+  border-radius: 19px;
+  background: linear-gradient(135deg, #d781f4, #a076ee 57%, #64d9f3);
+  color: #fff;
+  box-shadow: 0 10px 21px rgba(155, 89, 210, .23);
+}
+.app-shell .admin-dashboard .token-inspector-emblema svg {
+  width: 29px;
+  height: 29px;
+  stroke: #fff;
+}
+.app-shell .admin-dashboard .token-inspector-titulos { min-width: 0; }
+.app-shell .admin-dashboard .token-inspector-kicker {
+  margin: 0 0 4px;
+  color: #bf358e;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .11em;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector h2 {
+  margin: 0 0 6px;
+  color: #32175c;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 850;
+  line-height: 1.2;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-inspector-descripcion {
+  margin: 0;
+  color: #6e568d;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+/* Botón de consulta: mismo tono violeta/cian que las otras tarjetas. */
+.app-shell .admin-dashboard .admin-token-section .token-inspector-action {
+  display: inline-flex;
+  min-height: 49px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 12px 18px;
+  border: 1px solid rgba(158, 96, 210, .53);
+  border-radius: 14px;
+  background: linear-gradient(120deg, #d796ff 0%, #a978f6 65%, #80dded 100%);
+  color: #29134f;
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 19px rgba(135, 89, 198, .17);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector-action:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: saturate(1.13);
+  box-shadow: 0 12px 23px rgba(135, 89, 198, .27);
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector-action:focus-visible {
+  outline: 3px solid #7643c6;
+  outline-offset: 3px;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector-action:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+/* Aviso: texto oscuro sobre lavanda clara, sin fondos negros. */
+.app-shell .admin-dashboard .admin-token-section .token-inspector-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 13px 15px;
+  border: 1px solid rgba(163, 115, 220, .2);
+  border-radius: 14px;
+  background: rgba(255,255,255,.66);
+  color: #603d88;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.app-shell .admin-dashboard .token-inspector-aviso svg {
+  flex: 0 0 17px;
+  margin-top: 1px;
+  color: #9d58da;
+}
+
+/* Estado inicial, error y consulta en curso. */
+.app-shell .admin-dashboard .admin-token-section .token-inspector-vacio,
+.app-shell .admin-dashboard .admin-token-section .token-inspector-cargando {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0;
+  padding: 17px;
+  border: 1px dashed rgba(173, 114, 221, .38);
+  border-radius: 14px;
+  background: rgba(255,255,255,.62);
+  color: #69498d;
+  font-size: 13px;
+}
+.app-shell .admin-dashboard .token-inspector-vacio svg { flex: 0 0 19px; color: #995dd2; }
+.app-shell .admin-dashboard .token-inspector-error { color: #8a2856; }
+
+/* Cada claim se presenta como una tarjeta separada y sin superposición. */
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-grid {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-grid > .token-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 146px;
+  gap: 9px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,.96);
+  border-radius: 18px;
+  background: #fff7ff;
+  box-shadow: 0 7px 17px rgba(120, 76, 171, .08);
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field:nth-child(2) { background: #edf0ff; }
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field:nth-child(3) { background: #e3f7ff; }
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field:nth-child(4) { background: #f8e7fd; }
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field:nth-child(5) { background: #fceaf5; }
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field-label {
+  color: #6b3d96;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.4;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field-value {
+  display: block;
+  max-width: 100%;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #2f1756;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  user-select: text;
+}
+.app-shell .admin-dashboard .admin-token-section .token-inspector .token-field small {
+  display: block;
+  color: #6d5689;
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.5;
+}
+
+/* RESPONSIVE: dos columnas en tablets, una en pantallas pequeñas. */
+@media (max-width: 1150px) {
+  .app-shell .admin-dashboard .admin-token-section .token-inspector .token-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .app-shell .admin-dashboard .token-inspector-header { align-items: stretch; }
+  .app-shell .admin-dashboard .token-inspector-identidad { flex-basis: 100%; }
+  .app-shell .admin-dashboard .admin-token-section .token-inspector-action { width: 100%; }
+  .app-shell .admin-dashboard .admin-token-section .token-inspector .token-grid { grid-template-columns: 1fr; }
+  .app-shell .admin-dashboard .token-inspector-emblema {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+    border-radius: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .admin-dashboard .admin-token-section .token-inspector-action { transition: none; }
+  .app-shell .admin-dashboard .admin-token-section .token-inspector-action:hover:not(:disabled) { transform: none; }
+}
