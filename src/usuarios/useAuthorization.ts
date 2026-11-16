@@ -1,10 +1,10 @@
 ﻿/**
  * ============================================================
- * PEDIDOS360 â€” AUTORIZACIÃ“N DEL USUARIO
+ * PEDIDOS360 — AUTORIZACIÓN DEL USUARIO
  * Archivo: src/usuarios/useAuthorization.ts
  * ============================================================
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Obtiene el access token de la cuenta activa y lee los roles y
  * permisos (scopes) que Microsoft Entra incluyó en ese token.
  *

@@ -1,10 +1,10 @@
 ﻿/**
  * ================================================================
- * PEDIDOS360 â€” PROTECCIÃ“N VISUAL POR ROL
+ * PEDIDOS360 — PROTECCIÓN VISUAL POR ROL
  * Archivo: src/usuarios/RequireRole.tsx
  * ================================================================
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Permite acceder a una ruta privada solo si el token de la API
  * contiene al menos uno de los roles permitidos para ella.
  *
@@ -19,7 +19,7 @@
  * Esta comprobación solo controla qué pantalla puede verse.
  * API Gateway debe verificar el token y Lambda las reglas de negocio.
  *
- * INGLÃ‰S:
+ * INGLÉS:
  * require = exigir; role = rol; allowed = permitido;
  * denied = denegado; loading = cargando; guard = protección.
  */
@@ -86,7 +86,7 @@ export function RequireRole({ roles }: RequireRoleProps) {
   const rolesKey = roles.join('\u0000');
   const evaluationKey = `${accountKey}\u0001${rolesKey}`;
 
-  // Ãšltima comprobación asíncrona terminada.
+  // Última comprobación asíncrona terminada.
   const [evaluation, setEvaluation] = useState<Evaluacion | null>(null);
 
   /**
@@ -161,7 +161,7 @@ export function RequireRole({ roles }: RequireRoleProps) {
   }, [accountKey, evaluationKey, instance, rolesKey]);
 
   /**
-   * CASO 1 â€” AÃšN ESTAMOS COMPROBANDO PERMISOS
+   * CASO 1 — AÚN ESTAMOS COMPROBANDO PERMISOS
    */
   if (status === 'loading') {
     return (
@@ -175,7 +175,7 @@ export function RequireRole({ roles }: RequireRoleProps) {
   }
 
   /**
-   * CASO 2 â€” NO SE PUDO OBTENER O INTERPRETAR EL TOKEN
+   * CASO 2 — NO SE PUDO OBTENER O INTERPRETAR EL TOKEN
    * Evita mostrar falsamente «no tienes el rol» ante un error técnico.
    */
   if (status === 'error') {
@@ -190,7 +190,7 @@ export function RequireRole({ roles }: RequireRoleProps) {
   }
 
   /**
-   * CASO 3 â€” LA CUENTA NO TIENE UN ROL AUTORIZADO
+   * CASO 3 — LA CUENTA NO TIENE UN ROL AUTORIZADO
    */
   if (status === 'denied') {
     return (
@@ -207,7 +207,7 @@ export function RequireRole({ roles }: RequireRoleProps) {
   }
 
   /**
-   * CASO 4 â€” EL ROL ESTÁ PERMITIDO
+   * CASO 4 — EL ROL ESTÁ PERMITIDO
    * Outlet muestra la página hija: /admin, /operador, /comprar, etc.
    */
   return <Outlet />;

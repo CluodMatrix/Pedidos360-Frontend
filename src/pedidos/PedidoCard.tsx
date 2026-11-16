@@ -1,10 +1,10 @@
 ﻿/**
  * ============================================================
- * PEDIDOS360 â€” TARJETA DE PEDIDO
+ * PEDIDOS360 — TARJETA DE PEDIDO
  * Archivo: src/pedidos/PedidoCard.tsx
  * ============================================================
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Muestra un pedido: número, fecha, cliente, productos, total
  * y botones para pasar a otro estado.
  *
@@ -64,7 +64,7 @@ const formatoFecha = new Intl.DateTimeFormat('es-CL', {
 });
 
 /**
- * FUNCIÃ“N: etiquetaAccion()
+ * FUNCIÓN: etiquetaAccion()
  *
  * Traduce el código de un estado al texto del botón.
  * Recibe: EstadoPedido. Devuelve: string.
@@ -126,7 +126,7 @@ export function PedidoCard({
         <PedidoEstado estado={pedido.estado} />
       </header>
 
-      {/* INFORMACIÃ“N DEL PEDIDO. */}
+      {/* INFORMACIÓN DEL PEDIDO. */}
       <div className="order-meta">
         <span>
           <CalendarDays size={15} aria-hidden="true" />
@@ -191,7 +191,7 @@ export function PedidoCard({
               onClick={() => onTransition(pedido, estado)}
               disabled={pending}
             >
-              {saving ? 'Guardandoâ€¦' : etiquetaAccion(estado)}
+              {saving ? 'Guardando…' : etiquetaAccion(estado)}
               {estado !== 'CANCELADO' && (
                 <ArrowRight size={14} aria-hidden="true" />
               )}

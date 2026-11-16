@@ -523,6 +523,125 @@
   }
 }
 
+/* =====================================================
+   PULIDO DEL PANEL DEL CLIENTE
+   ===================================================== */
+
+@keyframes cliente-entrar {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.app-shell .cliente-inicio > .cliente-hero,
+.app-shell .cliente-inicio > section:nth-of-type(2),
+.app-shell .cliente-inicio > section:nth-of-type(3) {
+  animation: cliente-entrar 0.5s ease-out both;
+}
+
+.app-shell .cliente-inicio > section:nth-of-type(2) { animation-delay: 0.1s; }
+.app-shell .cliente-inicio > section:nth-of-type(3) { animation-delay: 0.2s; }
+
+/* Indicadores: barra de color abajo y elevación al pasar el mouse. */
+.app-shell .cliente-indicador {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell .cliente-indicador::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f76bc9, #b75df3);
+  content: '';
+}
+
+.app-shell .cliente-indicador:nth-child(2)::after {
+  background: linear-gradient(90deg, #b75df3, #7c5cf0);
+}
+
+.app-shell .cliente-indicador:nth-child(3)::after {
+  background: linear-gradient(90deg, #33badf, #58e1f9);
+}
+
+.app-shell .cliente-indicador:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(136, 82, 190, 0.16);
+}
+
+.app-shell .cliente-indicador strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pedidos recientes: el color lateral indica el estado. */
+.app-shell .cliente-pedido {
+  position: relative;
+  padding-left: 27px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.app-shell .cliente-pedido::before {
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+  width: 5px;
+  border-radius: 0 6px 6px 0;
+  background: var(--estado-color, #b75df3);
+  content: '';
+}
+
+.app-shell .cliente-pedido[data-estado='CREADO'] { --estado-color: #f76bc9; }
+.app-shell .cliente-pedido[data-estado='ACEPTADO'] { --estado-color: #b75df3; }
+.app-shell .cliente-pedido[data-estado='EN_PREPARACION'] { --estado-color: #7c5cf0; }
+.app-shell .cliente-pedido[data-estado='DESPACHADO'] { --estado-color: #33badf; }
+.app-shell .cliente-pedido[data-estado='ENTREGADO'] { --estado-color: #2fb37a; }
+.app-shell .cliente-pedido[data-estado='CANCELADO'] { --estado-color: #9a8aae; }
+
+.app-shell .cliente-pedido:hover {
+  transform: translateX(3px);
+  box-shadow: 0 12px 24px rgba(133, 80, 182, 0.14);
+}
+
+/* Estado vacío: icono en burbuja con el mismo degradado del héroe. */
+.app-shell .cliente-vacio > svg {
+  box-sizing: content-box;
+  width: 40px;
+  height: 40px;
+  padding: 16px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fb84d8, #9464f0);
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(166, 75, 214, 0.28);
+}
+
+/* Botón "Actualizar" mientras consulta. */
+.app-shell .cliente-actualizar.is-busy {
+  border-color: rgba(148, 100, 240, 0.6);
+  color: #7a3fd0;
+  cursor: progress;
+}
+
+.app-shell .cliente-actualizar.is-busy:disabled {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .cliente-inicio > .cliente-hero,
+  .app-shell .cliente-inicio > section {
+    animation: none;
+  }
+}
+
 @media (max-width: 700px) {
   .app-shell .cliente-hero {
     min-height: 0;

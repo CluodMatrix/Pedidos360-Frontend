@@ -15,6 +15,7 @@ import { LoadingState } from '../interfaz/LoadingState';
 import { ErrorState } from '../interfaz/ErrorState';
 
 const INTERVALO_MS = 5000;
+const MINIMO_FEEDBACK_MS = 600;
 
 const ETIQUETA_ESTADO: Record<string, string> = {
   PEDIDO_CREADO: 'Creado',
@@ -36,18 +37,32 @@ export function Reportes() {
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [actualizando, setActualizando] = useState(false);
+  const [ultimaActualizacion, setUltimaActualizacion] = useState<Date | null>(null);
 
   const cargar = useCallback(async () => {
     try {
       const resultado = await obtenerReportes();
       setDatos(resultado);
       setError(null);
+      setUltimaActualizacion(new Date());
     } catch (e) {
       setError(mensajeErrorKafka(e));
     } finally {
       setLoading(false);
     }
   }, []);
+
+  // El clic en "Actualizar" tiene que notarse: el icono gira y el botón cambia
+  // de texto durante un mínimo de tiempo, aunque la respuesta llegue al instante.
+  const refrescarAhora = useCallback(async () => {
+    setActualizando(true);
+    const inicio = Date.now();
+    await cargar();
+    const resto = MINIMO_FEEDBACK_MS - (Date.now() - inicio);
+    if (resto > 0) await new Promise((r) => setTimeout(r, resto));
+    setActualizando(false);
+  }, [cargar]);
 
   useEffect(() => {
     void cargar();
@@ -61,15 +76,27 @@ export function Reportes() {
   const maxEstado = Math.max(1, ...(datos?.estados ?? []).map((e) => e.cantidad));
 
   return (
-    <section className="page-stack dashboard-page">
+    <section className="page-stack kafka-page">
       <PageHeader
         eyebrow="Analítica"
         title="Reportes"
         subtitle="Ventas, tiempos de entrega y pedidos por estado, calculados a partir de los eventos."
         actions={
-          <button className="secondary-button" onClick={() => void cargar()} disabled={loading}>
-            <RefreshCw size={16} />Actualizar
-          </button>
+          <>
+            {ultimaActualizacion && (
+              <span className="kafka-updated">
+                Actualizado {ultimaActualizacion.toLocaleTimeString('es-CL')}
+              </span>
+            )}
+            <button
+              className={`secondary-button${actualizando ? ' is-busy' : ''}`}
+              onClick={() => void refrescarAhora()}
+              disabled={actualizando}
+            >
+              <RefreshCw size={16} className={actualizando ? 'is-spinning' : undefined} />
+              {actualizando ? 'Actualizando…' : 'Actualizar'}
+            </button>
+          </>
         }
       />
 

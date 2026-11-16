@@ -5,152 +5,193 @@
  * ============================================================
  *
  * ¿QUÉ HACE?
- * Muestra la cuenta activa y accesos al trabajo diario:
- * consultar el catálogo y gestionar los estados de pedidos.
+ * Muestra la cuenta activa, accesos al trabajo diario e indicadores
+ * de pedidos calculados con la respuesta real de la API.
  *
- * CONEXIONES:
- * - App.tsx / RequireRole.tsx: protegen la ruta /operador.
- * - usuarios/activeAccount.ts: obtiene la cuenta seleccionada.
- * - usuarios/useAuthorization.ts: obtiene roles y estado.
- * - interfaz/PageHeader.tsx: encabezado compartido.
- * - /catalogo y /pedidos: páginas a las que navega.
+ * ¿CON QUÉ SE CONECTA?
+ * - usuarios/activeAccount.ts: identifica la cuenta activa.
+ * - usuarios/useAuthorization.ts: consulta roles y permisos.
+ * - api/useApi.ts: cliente HTTP de la cuenta.
+ * - api/pedidosApi.ts: solicita los pedidos (GET /pedidos).
  *
- * ¿SE CONECTA DIRECTAMENTE CON AWS?
- * NO. Este componente no utiliza useApi() ni fetch().
- * Las consultas se realizan después, desde las páginas
- * de catálogo y pedidos utilizando los servicios de API/.
+ * ESTILOS:
+ * Reutiliza la estructura visual del panel de administración. Las reglas
+ * CSS de dashboard.css están escritas bajo .admin-dashboard, por eso el
+ * contenedor lleva esa clase. Solo es un nombre de estilo: el rol y los
+ * permisos siguen viniendo de Entra ID y de la API.
  *
  * SEGURIDAD:
- * La interfaz no ofrece edición de catálogo al Operador.
- * Sin embargo, los permisos reales deben comprobarse en
- * API Gateway y en las funciones Lambda.
+ * La interfaz no ofrece edición de catálogo al Operador. Los permisos
+ * reales se comprueban en API Gateway y en las Lambda.
  */
 
-// Link navega entre páginas de React Router sin recargar el sitio.
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// Hook de MSAL para consultar las cuentas de Microsoft Entra ID.
 import { useMsal } from '@azure/msal-react';
+import { ArrowUpRight, Boxes, ClipboardList, Clock, Package, Truck } from 'lucide-react';
 
-// Iconos reutilizables del paquete lucide-react.
-import {
-  ArrowUpRight,
-  Boxes,
-  ClipboardList,
-  UserRound,
-} from 'lucide-react';
-
-// Hook de autorización, componente visual y selección de cuenta.
+import { useApi } from '../api/useApi';
 import { useAuthorization } from '../usuarios/useAuthorization';
+import { apiErrorMessage } from '../api/clienteApi';
+import { listarPedidos } from '../api/pedidosApi';
 import { PageHeader } from '../interfaz/PageHeader';
+import { ErrorState } from '../interfaz/ErrorState';
+import { LoadingState } from '../interfaz/LoadingState';
 import { resolveActiveAccount } from '../usuarios/activeAccount';
 
-/**
- * COMPONENTE: PanelOperador().
- *
- * Se muestra cuando se visita /operador con un rol permitido.
- * No recibe propiedades (props) y no guarda estado propio.
- */
+import avatarOperador from '../imagenes/animales/Imagen de ChatGPT 29 sept 2026, 13_08_06.png';
+
+interface IndicadoresOperador {
+  total: number;
+  porAtender: number;
+  enPreparacion: number;
+  despachados: number;
+}
+
 export function PanelOperador() {
-  /**
-   * PASO 1 — Obtener la cuenta y los roles.
-   *
-   * useMsal(): entrega instance y accounts desde Microsoft.
-   * useAuthorization(): consulta roles/scopes del token de API.
-   * resolveActiveAccount(): selecciona la cuenta activa.
-   *
-   * Estas llamadas NO consultan catálogo ni pedidos.
-   */
   const { instance, accounts } = useMsal();
+  const api = useApi();
   const authorization = useAuthorization();
   const account = resolveActiveAccount(instance, accounts);
 
-  /**
-   * PASO 2 — Mostrar la interfaz.
-   *
-   * JSX: sintaxis para representar elementos React.
-   * className: nombre de una clase CSS (estilos visuales).
-   */
+  const [indicadores, setIndicadores] = useState<IndicadoresOperador | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  // Los indicadores salen de la API real. Solo se consultan cuando la
+  // autorización ya terminó y existe un cliente HTTP utilizable.
+  useEffect(() => {
+    if (authorization.loading || authorization.error || !api) return;
+
+    let activa = true;
+
+    const consultar = async () => {
+      try {
+        const pedidos = await listarPedidos(api);
+        if (!activa) return;
+        setIndicadores({
+          total: pedidos.length,
+          porAtender: pedidos.filter((p) => p.estado === 'CREADO').length,
+          enPreparacion: pedidos.filter((p) => p.estado === 'ACEPTADO' || p.estado === 'EN_PREPARACION').length,
+          despachados: pedidos.filter((p) => p.estado === 'DESPACHADO').length,
+        });
+        setError(null);
+      } catch (motivo) {
+        if (!activa) return;
+        setError(apiErrorMessage(motivo));
+      }
+    };
+
+    void consultar();
+    return () => {
+      activa = false;
+    };
+  }, [api, authorization.loading, authorization.error]);
+
   return (
-    <section className="page-stack dashboard-page">
-      {/* Título y subtítulo del panel. */}
+    <section className="page-stack dashboard-page admin-dashboard operador-dashboard">
       <PageHeader
         eyebrow="Operación"
         title="Panel de Operaciones"
         subtitle="Consulta el catálogo y gestiona los pedidos del día."
       />
 
-      {/* Datos de sesión tomados de MSAL, no de DynamoDB. */}
-      <section className="dashboard-welcome surface">
-        <div className="dashboard-welcome-copy">
-          <span className="dashboard-icon"><UserRound size={21} /></span>
-          <div>
-            <p className="card-overline">Sesión activa</p>
-            <h2>{account?.name ?? 'Cuenta Microsoft'}</h2>
-            <p className="muted-copy">
-              {account?.username ?? 'Usuario autenticado mediante Microsoft Entra ID'}
-            </p>
+      <div className="admin-top-grid">
+        <section className="dashboard-welcome surface admin-session-card" aria-label="Sesión activa">
+          <div className="dashboard-welcome-copy">
+            <span className="admin-avatar-frame">
+              <img className="admin-avatar-img" src={avatarOperador} alt="Avatar ilustrado de un gatito" />
+            </span>
+            <div className="admin-session-details">
+              <p className="card-overline">SESIÓN ACTIVA</p>
+              <h2>{account?.name ?? 'Cuenta Microsoft'}</h2>
+              <p className="muted-copy">
+                {account?.username ?? 'Usuario autenticado mediante Microsoft Entra ID'}
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/*
-         * roles.map(): recorre los roles y dibuja una etiqueta
-         * para cada uno. Mientras se comprueban, mostramos
-         * un mensaje para que la sección no parezca vacía.
-         */}
-        <div className="role-list" aria-label="Roles asignados">
-          {authorization.loading ? (
-            <span className="role-chip">Verificando roles…</span>
-          ) : authorization.error ? (
-            <span className="role-chip" role="status">No se pudieron comprobar los roles</span>
-          ) : (
-            authorization.roles.map((role) => (
-              <span className="role-chip" key={role}>{role}</span>
-            ))
-          )}
-        </div>
-      </section>
+          <div className="role-list" aria-label="Roles asignados">
+            {authorization.loading ? (
+              <span className="role-chip">Verificando roles…</span>
+            ) : authorization.error ? (
+              <span className="role-chip" role="status">No se pudieron comprobar los roles</span>
+            ) : (
+              authorization.roles.map((role) => (
+                <span className="role-chip" key={role}>{role}</span>
+              ))
+            )}
+          </div>
+        </section>
 
-      {/*
-       * SHORTCUTS = accesos directos.
-       * Estas tarjetas son enlaces: no ejecutan operaciones
-       * de escritura ni llamadas AWS en este componente.
-       */}
-      <section className="dashboard-shortcuts" aria-labelledby="operator-shortcuts-heading">
+        <section className="dashboard-shortcuts admin-quick-section" aria-labelledby="operator-shortcuts-heading">
+          <div className="section-heading">
+            <div>
+              <p className="page-eyebrow">ACCESOS</p>
+              <h2 id="operator-shortcuts-heading">Trabajo diario</h2>
+            </div>
+          </div>
+          <div className="shortcut-grid">
+            <Link to="/catalogo" className="shortcut-card">
+              <span className="shortcut-icon" aria-hidden="true"><Boxes size={25} strokeWidth={1.9} /></span>
+              <span className="shortcut-copy">
+                <strong>Ver catálogo</strong>
+                <small>Consulta de productos, precios y stock (solo lectura)</small>
+              </span>
+              <ArrowUpRight className="shortcut-arrow" size={18} aria-hidden="true" />
+            </Link>
+
+            <Link to="/pedidos" className="shortcut-card">
+              <span className="shortcut-icon" aria-hidden="true"><ClipboardList size={25} strokeWidth={1.9} /></span>
+              <span className="shortcut-copy">
+                <strong>Gestionar pedidos</strong>
+                <small>Aceptar, preparar y despachar pedidos</small>
+              </span>
+              <ArrowUpRight className="shortcut-arrow" size={18} aria-hidden="true" />
+            </Link>
+          </div>
+        </section>
+      </div>
+
+      <section className="dashboard-shortcuts admin-stats-section" aria-labelledby="operator-stats-heading">
         <div className="section-heading">
           <div>
-            <p className="page-eyebrow">ACCESOS</p>
-            <h2 id="operator-shortcuts-heading">Trabajo diario</h2>
+            <p className="page-eyebrow">INDICADORES</p>
+            <h2 id="operator-stats-heading">Pedidos del día</h2>
           </div>
         </div>
 
-        <div className="shortcut-grid">
-          {/* Ir a /catalogo: consulta productos en la página de destino. */}
-          <Link to="/catalogo" className="shortcut-card">
-            <span className="shortcut-icon"><Boxes size={20} strokeWidth={1.8} /></span>
-            <span className="shortcut-copy">
-              <strong>Ver catálogo</strong>
-              <small>Consulta de productos, precios y stock (solo lectura)</small>
-            </span>
-            <ArrowUpRight className="shortcut-arrow" size={17} />
-          </Link>
-
-          {/* Ir a /pedidos: allí se consultan y actualizan pedidos. */}
-          <Link to="/pedidos" className="shortcut-card">
-            <span className="shortcut-icon"><ClipboardList size={20} strokeWidth={1.8} /></span>
-            <span className="shortcut-copy">
-              <strong>Gestionar pedidos</strong>
-              <small>Aceptar, preparar y despachar pedidos</small>
-            </span>
-            <ArrowUpRight className="shortcut-arrow" size={17} />
-          </Link>
-        </div>
+        {authorization.loading ? (
+          <LoadingState message="Verificando permisos…" />
+        ) : authorization.error ? (
+          <ErrorState message={authorization.error} />
+        ) : !api ? (
+          <ErrorState message="No fue posible preparar la conexión con la API." />
+        ) : error ? (
+          <ErrorState message={error} />
+        ) : indicadores === null ? (
+          <LoadingState message="Consultando pedidos…" />
+        ) : (
+          <div className="stat-grid">
+            <div className="stat-card">
+              <span className="stat-icon" aria-hidden="true"><ClipboardList size={25} /></span>
+              <div className="stat-copy"><small>Pedidos totales</small><strong>{indicadores.total}</strong></div>
+            </div>
+            <div className="stat-card">
+              <span className="stat-icon" aria-hidden="true"><Clock size={25} /></span>
+              <div className="stat-copy"><small>Por aceptar</small><strong>{indicadores.porAtender}</strong></div>
+            </div>
+            <div className="stat-card">
+              <span className="stat-icon" aria-hidden="true"><Package size={25} /></span>
+              <div className="stat-copy"><small>En preparación</small><strong>{indicadores.enPreparacion}</strong></div>
+            </div>
+            <div className="stat-card">
+              <span className="stat-icon" aria-hidden="true"><Truck size={25} /></span>
+              <div className="stat-copy"><small>Despachados</small><strong>{indicadores.despachados}</strong></div>
+            </div>
+          </div>
+        )}
       </section>
 
-      {/*
-       * Mensaje informativo: la API y Lambda siguen siendo
-       * responsables de rechazar operaciones no autorizadas.
-       */}
       <p className="security-note">
         El catálogo es de solo lectura para Operador: las opciones de crear,
         editar o eliminar no aparecen y el backend las rechaza con 403.

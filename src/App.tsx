@@ -11,7 +11,7 @@
 //
 // Inicio por rol:
 // - /inicio resuelve el panel correspondiente según el rol:
-//   Admin â†’ /admin · Operador â†’ /operador · Cliente â†’ /cliente.
+//   Admin → /admin · Operador → /operador · Cliente → /cliente.
 // - El Cliente compra en /comprar y NO tiene acceso a /catalogo.
 //
 // Las rutas utilizan nombres en español para mantener
@@ -19,11 +19,11 @@
 
 /**
  * ================================================================
- * PEDIDOS360 â€” RUTAS Y PANTALLAS DE LA APLICACIÃ“N
+ * PEDIDOS360 — RUTAS Y PANTALLAS DE LA APLICACIÓN
  * Archivo: src/App.tsx
  * ================================================================
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Decide qué página se muestra según la dirección URL del navegador.
  * Además, coloca protecciones de autenticación y de roles.
  *
@@ -43,7 +43,7 @@
  * Ocultar rutas en React NO evita por sí solo llamadas a la API.
  * API Gateway debe validar el JWT y Lambda los roles/propietarios.
  *
- * INGLÃ‰S:
+ * INGLÉS:
  * route = ruta; router = enrutador; navigate = redirigir;
  * outlet = espacio donde aparece una página hija;
  * scroll = desplazamiento; provider = proveedor.
@@ -92,7 +92,7 @@ import { Auditoria } from './kafka/Auditoria';
  * Se ejecuta dentro de BrowserRouter para poder leer useLocation().
  * Cuando cambia pathname, mueve al principio la zona de contenido.
  *
- * useEffect() ejecuta el efecto DESPUÃ‰S de actualizar la vista.
+ * useEffect() ejecuta el efecto DESPUÉS de actualizar la vista.
  * document.getElementById('main-content') es el contenedor que
  * AppShell.tsx utiliza para las páginas privadas.
  *

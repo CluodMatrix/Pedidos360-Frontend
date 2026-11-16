@@ -1,10 +1,10 @@
 ﻿/**
  * ============================================================
- * PEDIDOS360 â€” API DEL CATÁLOGO
+ * PEDIDOS360 — API DEL CATÁLOGO
  * Archivo: src/API/catalogoApi.ts
  * ============================================================
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Contiene las operaciones necesarias para administrar
  * los productos del catálogo de Pedidos360.
  *
@@ -118,9 +118,9 @@ interface CatalogoResponse {
 }
 
 /**
- * FUNCIÃ“N: esProducto()
+ * FUNCIÓN: esProducto()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Comprueba en tiempo de ejecución si un valor
  * tiene los campos esperados de un Producto.
  *
@@ -137,7 +137,7 @@ interface CatalogoResponse {
  * Type guard = comprobación que ayuda a TypeScript
  * a reconocer el tipo de un dato.
  *
- * CONEXIÃ“N:
+ * CONEXIÓN:
  * Se utiliza dentro de extraerProductos().
  */
 
@@ -163,9 +163,9 @@ function esProducto(value: unknown): value is Producto {
 }
 
 /**
- * FUNCIÃ“N: extraerProductos()
+ * FUNCIÓN: extraerProductos()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Convierte una respuesta del backend
  * en una lista válida de productos.
  *
@@ -181,7 +181,7 @@ function esProducto(value: unknown): value is Producto {
  * 3. Verifica que cada elemento sea un producto.
  * 4. Devuelve la lista o genera un error.
  *
- * CONEXIÃ“N:
+ * CONEXIÓN:
  * - esProducto(): verifica cada producto.
  * - listarCatalogo(): procesa su respuesta.
  * - listarCatalogoCompra(): procesa su respuesta.
@@ -221,9 +221,9 @@ function extraerProductos(response: unknown): Producto[] {
 }
 
 /**
- * FUNCIÃ“N: listarCatalogo()
+ * FUNCIÓN: listarCatalogo()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Obtiene el catálogo administrativo desde AWS.
  *
  * PARÁMETRO:
@@ -232,13 +232,13 @@ function extraerProductos(response: unknown): Producto[] {
  * DEVUELVE:
  * Promise<Producto[]>: lista de productos.
  *
- * CONEXIÃ“N AWS:
+ * CONEXIÓN AWS:
  * GET /catalogo
- *      â†“
+ *      ↓
  * API Gateway (catalog.read)
- *      â†“
+ *      ↓
  * Lambda pedidos360-catalogo
- *      â†“
+ *      ↓
  * DynamoDB
  *
  * El backend decide qué roles pueden consultar esta ruta.
@@ -255,12 +255,12 @@ export async function listarCatalogo(
 }
 
 /**
- * FUNCIÃ“N: obtenerProducto()
+ * FUNCIÓN: obtenerProducto()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Busca un producto específico utilizando su ID.
  *
- * MÃ‰TODO HTTP: GET
+ * MÉTODO HTTP: GET
  * RUTA: /catalogo/{id}
  *
  * encodeURIComponent:
@@ -283,12 +283,12 @@ export function obtenerProducto(
 }
 
 /**
- * FUNCIÃ“N: crearProducto()
+ * FUNCIÓN: crearProducto()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Envía al backend los datos de un nuevo producto.
  *
- * MÃ‰TODO HTTP: POST
+ * MÉTODO HTTP: POST
  * RUTA: /catalogo
  * SCOPE: catalog.write
  *
@@ -298,7 +298,7 @@ export function obtenerProducto(
  * api: cliente de conexión.
  * producto: datos del producto que queremos crear.
  *
- * CONEXIÃ“N:
+ * CONEXIÓN:
  * Catalogo.tsx -> crearProducto()
  * -> clienteApi.ts -> API Gateway -> Lambda
  * -> DynamoDB.
@@ -314,21 +314,21 @@ export function crearProducto(
 }
 
 /**
- * FUNCIÃ“N: listarCatalogoCompra()
+ * FUNCIÓN: listarCatalogoCompra()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Obtiene los productos disponibles para la vista de compra.
  *
  * Esta consulta es diferente del catálogo administrativo.
  *
- * MÃ‰TODO HTTP: GET
+ * MÉTODO HTTP: GET
  * RUTA: /catalogo/comprar
  *
  * En tu backend, esta ruta permite ofrecer la
  * información necesaria para que un Cliente compre,
  * incluyendo el stock real de los productos.
  *
- * CONEXIÃ“N:
+ * CONEXIÓN:
  * Comprar.tsx -> listarCatalogoCompra()
  * -> clienteApi.ts -> API Gateway
  * -> Lambda pedidos360-catalogo.
@@ -348,12 +348,12 @@ export async function listarCatalogoCompra(
 }
 
 /**
- * FUNCIÃ“N: actualizarProducto()
+ * FUNCIÓN: actualizarProducto()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Modifica los datos de un producto existente.
  *
- * MÃ‰TODO HTTP: PUT
+ * MÉTODO HTTP: PUT
  * RUTA: /catalogo/{id}
  * SCOPE: catalog.write
  *
@@ -378,12 +378,12 @@ export function actualizarProducto(
 }
 
 /**
- * FUNCIÃ“N: eliminarProducto()
+ * FUNCIÓN: eliminarProducto()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Solicita eliminar un producto del catálogo.
  *
- * MÃ‰TODO HTTP: DELETE
+ * MÉTODO HTTP: DELETE
  * RUTA: /catalogo/{id}
  * SCOPE: catalog.write
  *

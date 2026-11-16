@@ -1,6 +1,6 @@
 ﻿/**
  * ============================================================
- * PEDIDOS360 â€” PROVEEDOR DE AVISOS FLOTANTES
+ * PEDIDOS360 — PROVEEDOR DE AVISOS FLOTANTES
  * Archivo: src/interfaz/ToastProvider.tsx
  * ============================================================
  *
@@ -10,7 +10,7 @@
  * - Polling = consultar repetidamente un servicio cada cierto tiempo.
  * - Endpoint = ruta de una API, como GET /notificaciones.
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Si el servicio de notificaciones está habilitado y protegido:
  * 1. Consulta GET /notificaciones mediante el cliente HTTP.
  * 2. Recuerda los avisos existentes en la primera consulta.
@@ -24,7 +24,7 @@
  * - conexion/notificacionesApi.ts: función listarNotificaciones().
  * - interfaz/toastContext.ts: comparte datos y función descartar().
  *
- * FLUJO PREVISTO EN AWS (AÃšN INCOMPLETO):
+ * FLUJO PREVISTO EN AWS (AÚN INCOMPLETO):
  * Lambda pedidos -> SNS -> SQS -> Lambda notificar-frontend
  * -> DynamoDB -> API Gateway GET /notificaciones -> React.
  *
@@ -86,7 +86,7 @@ const NOTIFICACIONES_HABILITADAS =
   import.meta.env.VITE_ENABLE_NOTIFICATIONS === 'true';
 
 /**
- * FUNCIÃ“N: iconoDe(tipo)
+ * FUNCIÓN: iconoDe(tipo)
  * «tipo» indica el evento que llegó del backend.
  * Devuelve el icono React más apropiado para ese evento.
  * No realiza ninguna solicitud HTTP.
@@ -110,7 +110,7 @@ function iconoDe(tipo: string) {
 }
 
 /**
- * FUNCIÃ“N: claseDe(tipo)
+ * FUNCIÓN: claseDe(tipo)
  * Devuelve la clase CSS que define el color del aviso.
  * «error», «info», «success» y «neutral» son nombres de estilos,
  * no estados de los pedidos en DynamoDB.
@@ -202,7 +202,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const primeraCarga = useRef(true);
 
   /**
-   * FUNCIÃ“N: descartar(id)
+   * FUNCIÓN: descartar(id)
    * Quita un toast de la pantalla mediante filter().
    * No borra ninguna fila de DynamoDB ni marca eventos como leídos.
    * useCallback conserva una referencia estable de la función.
@@ -243,7 +243,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     let temporizador: ReturnType<typeof setTimeout> | undefined;
 
     /**
-     * FUNCIÃ“N INTERNA: consultar()
+     * FUNCIÓN INTERNA: consultar()
      *
      * Se conecta con listarNotificaciones() de conexion/.
      * Esa función llama a GET /notificaciones por medio de ApiClient.

@@ -1,10 +1,10 @@
 ﻿/**
  * ============================================================
- * PEDIDOS360 â€” FORMULARIO PARA CREAR PEDIDOS
+ * PEDIDOS360 — FORMULARIO PARA CREAR PEDIDOS
  * Archivo: src/pedidos/PedidoForm.tsx
  * ============================================================
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * Presenta campos para elegir un producto y su cantidad.
  *
  * CONEXIONES:
@@ -16,7 +16,7 @@
  * cuando envías el formulario, llama a crearPedido(),
  * que llega a API Gateway -> Lambda -> DynamoDB.
  *
- * CORRECCIÃ“N:
+ * CORRECCIÓN:
  * No permitimos sustituir un catálogo fallido por un ID
  * escrito manualmente: solo se puede elegir un producto
  * realmente obtenido del backend y con stock disponible.
@@ -111,7 +111,7 @@ export function PedidoForm({
           >
             <option value="">
               {productsLoading
-                ? 'Cargando catálogoâ€¦'
+                ? 'Cargando catálogo…'
                 : products.length === 0
                   ? 'No hay productos disponibles para seleccionar'
                   : 'Selecciona un producto'}
@@ -148,7 +148,7 @@ export function PedidoForm({
           type="submit"
           disabled={!puedeEnviar}
         >
-          {submitting ? 'Enviandoâ€¦' : 'Enviar pedido'}
+          {submitting ? 'Enviando…' : 'Enviar pedido'}
         </button>
       </form>
 

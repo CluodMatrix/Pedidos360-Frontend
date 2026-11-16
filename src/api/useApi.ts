@@ -1,11 +1,11 @@
 ﻿
 /**
  * ============================================================
- * PEDIDOS360 â€” HOOK DE CONEXIÃ“N API
+ * PEDIDOS360 — HOOK DE CONEXIÓN API
  * Archivo: src/API/useApi.ts
  * ============================================================
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Entrega un cliente HTTP asociado a la cuenta
  * de Microsoft Entra ID que está activa.
  *
@@ -45,7 +45,7 @@ import { resolveActiveAccount } from '../usuarios/activeAccount';
 /**
  * HOOK PERSONALIZADO: useApi()
  *
- * ¿PARA QUÃ‰ SIRVE?
+ * ¿PARA QUÉ SIRVE?
  * Entrega un cliente HTTP preparado para el
  * usuario que actualmente utiliza Pedidos360.
  *

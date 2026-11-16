@@ -1,8 +1,8 @@
 ﻿/**
- * PEDIDOS360 â€” VISTA DE COMPRA DEL CLIENTE
+ * PEDIDOS360 — VISTA DE COMPRA DEL CLIENTE
  * Archivo: src/catalogo/Comprar.tsx
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * 1. Obtiene el catálogo REAL de AWS.
  * 2. Permite armar un carrito temporal en React.
  * 3. Solicita crear un pedido REAL en el backend.
@@ -117,7 +117,7 @@ export function Comprar() {
 
   /**
    * EFECTO: carga productos desde AWS cuando tenemos un ApiClient.
-   * CONEXIÃ“N: listarCatalogoCompra(api) -> GET /catalogo/comprar
+   * CONEXIÓN: listarCatalogoCompra(api) -> GET /catalogo/comprar
    * -> API Gateway -> Lambda catálogo -> DynamoDB.
    *
    * La variable vigente impide que una respuesta atrasada cambie la
@@ -169,7 +169,7 @@ export function Comprar() {
   }, [api, reintentos]);
 
   /**
-   * FUNCIÃ“N: enCarrito(id)
+   * FUNCIÓN: enCarrito(id)
    * find = buscar: devuelve la línea que contiene ese producto,
    * o undefined si todavía no ha sido agregado.
    * NO hace llamadas HTTP.
@@ -178,7 +178,7 @@ export function Comprar() {
     carrito.find((linea) => linea.producto.id === id);
 
   /**
-   * FUNCIÃ“N: agregar(producto)
+   * FUNCIÓN: agregar(producto)
    * Incorpora un producto al carrito o aumenta su cantidad,
    * sin superar el stock conocido. Solo cambia el estado de React.
    * El backend vuelve a verificar el stock al confirmar.
@@ -201,7 +201,7 @@ export function Comprar() {
   }
 
   /**
-   * FUNCIÃ“N: cambiarCantidad(id, delta)
+   * FUNCIÓN: cambiarCantidad(id, delta)
    * Delta = variación: -1 para disminuir, +1 para aumentar.
    * Math.min y Math.max mantienen la cantidad entre 1 y el stock.
    * Para eliminar la línea completa se usa quitar().
@@ -224,7 +224,7 @@ export function Comprar() {
   }
 
   /**
-   * FUNCIÃ“N: quitar(id)
+   * FUNCIÓN: quitar(id)
    * filter = filtrar: conserva todas las líneas excepto la elegida.
    */
   function quitar(id: string) {
@@ -244,8 +244,8 @@ export function Comprar() {
   );
 
   /**
-   * FUNCIÃ“N: confirmarPedido()
-   * CONEXIÃ“N REAL CON AWS:
+   * FUNCIÓN: confirmarPedido()
+   * CONEXIÓN REAL CON AWS:
    * crearPedido(api, { productos }) -> POST /pedidos -> API Gateway
    * -> Lambda pedidos360-pedidos -> DynamoDB (y posible publicación SNS).
    *
@@ -282,10 +282,10 @@ export function Comprar() {
 
   // Sin cuenta activa, todavía no hay cliente autenticado.
   if (!api) {
-    return <LoadingState message="Conectando con el backendâ€¦" />;
+    return <LoadingState message="Conectando con el backend…" />;
   }
 
-  /** PANTALLA DE CONFIRMACIÃ“N: se muestra cuando AWS creó el pedido. */
+  /** PANTALLA DE CONFIRMACIÓN: se muestra cuando AWS creó el pedido. */
   if (confirmado) {
     return (
       <section className="page-stack">
@@ -327,7 +327,7 @@ export function Comprar() {
 
       {/* Muestra carga, error con reintento o ausencia real de productos. */}
       {cargandoCatalogo && (
-        <LoadingState message="Cargando catálogo real desde AWSâ€¦" />
+        <LoadingState message="Cargando catálogo real desde AWS…" />
       )}
 
       {!cargandoCatalogo && errorCatalogo && (
@@ -472,7 +472,7 @@ export function Comprar() {
                 disabled={submitting || cargandoCatalogo || Boolean(errorCatalogo)}
               >
                 {submitting ? (
-                  'Creando pedidoâ€¦'
+                  'Creando pedido…'
                 ) : (
                   <><ShoppingBag size={16} /> Confirmar pedido</>
                 )}

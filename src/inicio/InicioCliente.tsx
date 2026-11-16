@@ -1,11 +1,11 @@
 ﻿
 /**
  * ==========================================================
- * PEDIDOS360 â€” PANEL PERSONAL DEL CLIENTE
+ * PEDIDOS360 — PANEL PERSONAL DEL CLIENTE
  * Archivo: src/inicio/InicioCliente.tsx
  * ==========================================================
  *
- * QUÃ‰ HACE:
+ * QUÉ HACE:
  * - Saluda al cliente usando su cuenta Microsoft.
  * - Muestra una ilustración del proyecto.
  * - Ofrece botones para Comprar y Mis pedidos.
@@ -103,7 +103,7 @@ const formatoDinero = new Intl.NumberFormat('es-CL', {
 });
 
 /**
- * FUNCIÃ“N: formatearFecha()
+ * FUNCIÓN: formatearFecha()
  *
  * Convierte una fecha del backend en una fecha legible.
  */
@@ -152,6 +152,7 @@ export function InicioCliente() {
     useState<ResultadoConsulta | null>(null);
 
   const [revision, setRevision] = useState(0);
+  const [girando, setGirando] = useState(false);
 
   /**
    * CLAVE DE CONSULTA
@@ -245,7 +246,7 @@ export function InicioCliente() {
   ).length;
 
   /**
-   * ÃšLTIMOS PEDIDOS
+   * ÚLTIMOS PEDIDOS
    *
    * sort() ordena desde el más reciente.
    * slice(0, 3) conserva los primeros tres.
@@ -259,13 +260,17 @@ export function InicioCliente() {
     .slice(0, 3);
 
   /**
-   * FUNCIÃ“N: actualizarPedidos()
+   * FUNCIÓN: actualizarPedidos()
    *
    * Cambia revision y provoca una nueva consulta
    * mediante useEffect.
    */
   function actualizarPedidos() {
     setRevision((anterior) => anterior + 1);
+    // El icono gira un instante aunque la respuesta llegue enseguida,
+    // para que se note que el clic hizo algo.
+    setGirando(true);
+    window.setTimeout(() => setGirando(false), 600);
   }
 
   return (
@@ -338,19 +343,19 @@ export function InicioCliente() {
 
           <button
             type="button"
-            className="cliente-actualizar"
+            className={`cliente-actualizar${girando || cargandoPedidos ? ' is-busy' : ''}`}
             onClick={actualizarPedidos}
             disabled={!listoParaConsultar || cargandoPedidos}
           >
-            <RefreshCw size={16} />
-            Actualizar
+            <RefreshCw size={16} className={girando || cargandoPedidos ? 'is-spinning' : undefined} />
+            {girando || cargandoPedidos ? 'Actualizando…' : 'Actualizar'}
           </button>
         </div>
 
-        {/* ESTADOS DE AUTORIZACIÃ“N Y CONSULTA */}
+        {/* ESTADOS DE AUTORIZACIÓN Y CONSULTA */}
         {authorization.loading && (
           <p className="cliente-aviso" role="status">
-            Verificando permisos de tu cuentaâ€¦
+            Verificando permisos de tu cuenta…
           </p>
         )}
 
@@ -374,13 +379,13 @@ export function InicioCliente() {
           puedeConsultar &&
           !api && (
             <p className="cliente-aviso" role="status">
-              Preparando la conexión con el servicio de pedidosâ€¦
+              Preparando la conexión con el servicio de pedidos…
             </p>
           )}
 
         {cargandoPedidos && (
           <p className="cliente-aviso" role="status">
-            Consultando tus pedidosâ€¦
+            Consultando tus pedidos…
           </p>
         )}
 
@@ -472,6 +477,7 @@ export function InicioCliente() {
                 {ultimosPedidos.map((pedido) => (
                   <article
                     className="cliente-pedido"
+                    data-estado={pedido.estado}
                     key={pedido.id}
                   >
                     <div className="cliente-pedido-info">

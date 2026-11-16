@@ -1,8 +1,8 @@
 ﻿/**
- * PEDIDOS360 â€” CONSULTA DE NOTIFICACIONES
+ * PEDIDOS360 — CONSULTA DE NOTIFICACIONES
  * Archivo: src/conexion/notificacionesApi.ts
  *
- * FUNCIÃ“N PRINCIPAL:
+ * FUNCIÓN PRINCIPAL:
  * - listarNotificaciones(api): solicita avisos a una API HTTP.
  *
  * CONEXIONES:
@@ -47,9 +47,9 @@ export interface Notificacion {
 }
 
 /**
- * FUNCIÃ“N: listarNotificaciones(api)
+ * FUNCIÓN: listarNotificaciones(api)
  *
- * ¿QUÃ‰ HACE?
+ * ¿QUÉ HACE?
  * 1. Usa el cliente autenticado para enviar GET /notificaciones.
  * 2. Devuelve la lista recibida si la respuesta es un arreglo.
  * 3. Si la respuesta tiene un formato inesperado, informa un error.
