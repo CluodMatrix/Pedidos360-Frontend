@@ -1,10 +1,10 @@
-/**
+﻿/**
  * ============================================================
- * PEDIDOS360 — ESTADO VISUAL DE UN PEDIDO
+ * PEDIDOS360 â€” ESTADO VISUAL DE UN PEDIDO
  * Archivo: src/pedidos/PedidoEstado.tsx
  * ============================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Traduce el estado técnico de un pedido a un texto legible
  * y lo muestra usando una etiqueta visual.
  *
@@ -17,7 +17,7 @@
  * No. Recibe el estado que ya obtuvo otro componente.
  */
 
-import type { EstadoPedido } from '../API/pedidosApi';
+import type { EstadoPedido } from '../api/pedidosApi';
 import { StatusBadge } from '../interfaz/StatusBadge';
 
 /**

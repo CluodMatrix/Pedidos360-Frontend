@@ -1,14 +1,14 @@
-/**
+﻿/**
  * ============================================================
- * PEDIDOS360 — PANEL DE ADMINISTRACIÓN
+ * PEDIDOS360 â€” PANEL DE ADMINISTRACIÃ“N
  * Archivo: src/inicio/PanelAdmin.tsx
  * ============================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Muestra los datos de la cuenta, accesos rápidos y cuatro
  * indicadores calculados con información real del backend.
  *
- * ¿CON QUÉ SE CONECTA?
+ * ¿CON QUÃ‰ SE CONECTA?
  * - usuarios/activeAccount.ts: identifica la cuenta activa.
  * - usuarios/useAuthorization.ts: consulta roles y permisos.
  * - API/useApi.ts: entrega el cliente HTTP de esa cuenta.
@@ -46,11 +46,11 @@ import {
 } from 'lucide-react';
 
 // Conexiones con API y autorización.
-import { useApi } from '../API/useApi';
+import { useApi } from '../api/useApi';
 import { useAuthorization } from '../usuarios/useAuthorization';
-import { apiErrorMessage } from '../API/clienteApi';
-import { listarCatalogo } from '../API/catalogoApi';
-import { listarPedidos } from '../API/pedidosApi';
+import { apiErrorMessage } from '../api/clienteApi';
+import { listarCatalogo } from '../api/catalogoApi';
+import { listarPedidos } from '../api/pedidosApi';
 
 // Componentes compartidos y utilidades de la cuenta.
 import { PageHeader } from '../interfaz/PageHeader';
@@ -111,7 +111,7 @@ interface ResultadoIndicadores {
  */
 export function PanelAdmin() {
   /**
-   * PASO 1 — Identificar al usuario y preparar la API.
+   * PASO 1 â€” Identificar al usuario y preparar la API.
    *
    * instance / accounts: instancia y cuentas conocidas por MSAL.
    * api: cliente HTTP, o null si no existe una cuenta utilizable.
@@ -124,7 +124,7 @@ export function PanelAdmin() {
   const account = resolveActiveAccount(instance, accounts);
 
   /**
-   * PASO 2 — Estados de React.
+   * PASO 2 â€” Estados de React.
    *
    * useState conserva información entre renderizados.
    * revision aumenta cuando la persona solicita «Reintentar».
@@ -152,7 +152,7 @@ export function PanelAdmin() {
   const resultadoActual = resultado?.clave === claveConsulta ? resultado : null;
 
   /**
-   * PASO 3 — Consultar estadísticas.
+   * PASO 3 â€” Consultar estadísticas.
    *
    * useEffect ejecuta esta operación cuando la autenticación
    * está lista, cambia el cliente API o se pulsa «Reintentar».
@@ -162,7 +162,7 @@ export function PanelAdmin() {
    * Si una falla, se presenta un error en lugar de cifras
    * aparentemente completas pero incorrectas.
    *
-   * CONEXIÓN AWS:
+   * CONEXIÃ“N AWS:
    * - listarCatalogo(api) -> GET /catalogo -> Lambda catálogo.
    * - listarPedidos(api) -> GET /pedidos -> Lambda pedidos.
    * Ambas Lambda consultan DynamoDB según su implementación.
@@ -176,7 +176,7 @@ export function PanelAdmin() {
     let activa = true;
 
     /**
-     * FUNCIÓN INTERNA: consultarIndicadores().
+     * FUNCIÃ“N INTERNA: consultarIndicadores().
      *
      * Obtiene productos y pedidos, calcula los contadores y
      * guarda el resultado de la consulta actual.
@@ -223,7 +223,7 @@ export function PanelAdmin() {
   }, [api, authorization.loading, authorization.error, claveConsulta]);
 
   /**
-   * FUNCIÓN: reintentar().
+   * FUNCIÃ“N: reintentar().
    *
    * Se entrega al botón de ErrorState.
    * Al aumentar revision, React vuelve a ejecutar el efecto
@@ -234,7 +234,7 @@ export function PanelAdmin() {
   }
 
   /**
-   * PASO 4 — Dibujar la interfaz (JSX).
+   * PASO 4 â€” Dibujar la interfaz (JSX).
    *
    * «admin-dashboard» separa los estilos del administrador de las páginas
    * del Cliente. No cambia rutas, permisos ni conexiones con AWS.
@@ -264,7 +264,7 @@ export function PanelAdmin() {
               <img className="admin-avatar-img" src={avatarGato} alt="Avatar ilustrado de un gatito" />
             </span>
             <div className="admin-session-details">
-              <p className="card-overline">SESIÓN ACTIVA</p>
+              <p className="card-overline">SESIÃ“N ACTIVA</p>
               <h2>{account?.name ?? 'Cuenta Microsoft'}</h2>
               <p className="muted-copy">
                 {account?.username ?? 'Usuario autenticado mediante Microsoft Entra ID'}
@@ -275,7 +275,7 @@ export function PanelAdmin() {
           {/* Roles obtenidos del token de acceso mediante useAuthorization(). */}
           <div className="role-list" aria-label="Roles asignados">
             {authorization.loading ? (
-              <span className="role-chip">Verificando rol…</span>
+              <span className="role-chip">Verificando rolâ€¦</span>
             ) : (
               authorization.roles.map((role) => (
                 <span className="role-chip" key={role}>{role}</span>
@@ -326,7 +326,7 @@ export function PanelAdmin() {
         </div>
 
         {authorization.loading ? (
-          <LoadingState message="Verificando permisos…" />
+          <LoadingState message="Verificando permisosâ€¦" />
         ) : authorization.error ? (
           <ErrorState message={authorization.error} />
         ) : !api ? (
@@ -334,7 +334,7 @@ export function PanelAdmin() {
         ) : resultadoActual?.error ? (
           <ErrorState message={resultadoActual.error} onRetry={reintentar} />
         ) : resultadoActual?.stats == null ? (
-          <LoadingState message="Consultando catálogo y pedidos…" />
+          <LoadingState message="Consultando catálogo y pedidosâ€¦" />
         ) : (
           <div className="stat-grid">
             <div className="stat-card">

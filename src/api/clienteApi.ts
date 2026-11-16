@@ -1,11 +1,11 @@
-
+﻿
 /**
  * ============================================================
- * PEDIDOS360 — CLIENTE PRINCIPAL HTTP
+ * PEDIDOS360 â€” CLIENTE PRINCIPAL HTTP
  * Archivo: src/API/clienteApi.ts
  * ============================================================
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Centraliza la comunicación entre React y AWS API Gateway.
  *
  * RESPONSABILIDADES:
@@ -72,7 +72,7 @@ interface ApiTokenClaims {
 /**
  * CLASE: ApiError
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Representa un error ocurrido durante una
  * solicitud al backend.
  *
@@ -88,7 +88,7 @@ interface ApiTokenClaims {
  * - method: GET, POST, PUT o DELETE.
  * - tokenClaims: información diagnóstica del JWT.
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * request() crea esta clase cuando una solicitud falla.
  */
 export class ApiError extends Error {
@@ -139,7 +139,7 @@ export class ApiError extends Error {
 /**
  * CLASE: ApiNotConfiguredError
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Representa el error que ocurre cuando
  * todavía no tenemos una URL de backend.
  *
@@ -157,9 +157,9 @@ export class ApiNotConfiguredError extends Error {
 }
 
 /**
- * FUNCIÓN: apiErrorMessage()
+ * FUNCIÃ“N: apiErrorMessage()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Transforma un error técnico en un mensaje
  * comprensible para el usuario.
  *
@@ -169,7 +169,7 @@ export class ApiNotConfiguredError extends Error {
  * RETORNA:
  * string: mensaje en español.
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * Puede utilizarse desde las páginas React
  * para mostrar un aviso cuando una operación falla.
  *
@@ -225,11 +225,11 @@ export function apiErrorMessage(error: unknown): string {
 }
 
 /**
- * FUNCIÓN: apiErrorDetails()
+ * FUNCIÃ“N: apiErrorDetails()
  *
  * Details = detalles.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Obtiene información técnica sobre un ApiError.
  *
  * Esto ayuda durante el desarrollo y depuración.
@@ -240,7 +240,7 @@ export function apiErrorMessage(error: unknown): string {
  * Los argumentos null y 2 permiten
  * presentar el JSON con indentación.
  *
- * ATENCIÓN:
+ * ATENCIÃ“N:
  * Los detalles pueden contener información
  * sensible enviada en la respuesta del backend.
  * No los publiques sin revisarlos.
@@ -261,11 +261,11 @@ export function apiErrorDetails(error: unknown): string | null {
 }
 
 /**
- * FUNCIÓN: safeJson()
+ * FUNCIÃ“N: safeJson()
  *
  * Safe = seguro.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Intenta convertir una respuesta de texto
  * en un objeto JSON.
  *
@@ -286,7 +286,7 @@ function safeJson(text: string): unknown {
  *
  * Pending = pendiente o en proceso.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Comparte una solicitud de token que ya está en curso.
  *
  * PROBLEMA QUE RESUELVE:
@@ -313,18 +313,18 @@ let pendingApiToken: {
  *
  * Redirect = redirección.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Evita iniciar varias redirecciones a Microsoft
  * simultáneamente dentro de esta carga de página.
  */
 let redirectStarted = false;
 
 /**
- * FUNCIÓN: acquireApiToken()
+ * FUNCIÃ“N: acquireApiToken()
  *
  * Acquire = adquirir u obtener.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Obtiene un access token para Pedidos360-API.
  *
  * PARÁMETROS:
@@ -348,7 +348,7 @@ let redirectStarted = false;
  * 3. Si falla, inicia una redirección a Microsoft.
  * 4. Comparte la promesa entre solicitudes simultáneas.
  *
- * OBSERVACIÓN:
+ * OBSERVACIÃ“N:
  * El código actual intenta la redirección cuando
  * acquireTokenSilent falla por cualquier motivo.
  * Conservamos ese comportamiento porque es el
@@ -475,11 +475,11 @@ export interface ApiClient {
 }
 
 /**
- * FUNCIÓN: createApiClient()
+ * FUNCIÃ“N: createApiClient()
  *
  * Create = crear.
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Crea un cliente HTTP asociado a una cuenta Microsoft.
  *
  * PARÁMETROS:
@@ -489,7 +489,7 @@ export interface ApiClient {
  * DEVUELVE:
  * ApiClient: objeto con métodos HTTP.
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * useApi.ts llama a createApiClient().
  *
  * Las funciones de catálogo y pedidos
@@ -501,11 +501,11 @@ export function createApiClient(
 ): ApiClient {
 
   /**
-   * FUNCIÓN INTERNA: request()
+   * FUNCIÃ“N INTERNA: request()
    *
    * Es el núcleo de la comunicación HTTP.
    *
-   * ¿QUÉ HACE?
+   * ¿QUÃ‰ HACE?
    * 1. Comprueba la configuración.
    * 2. Obtiene un token.
    * 3. Construye la URL completa.
@@ -671,7 +671,7 @@ export function createApiClient(
   }
 
   /**
-   * DEVOLVER LOS MÉTODOS HTTP
+   * DEVOLVER LOS MÃ‰TODOS HTTP
    *
    * Cada método reutiliza request().
    *

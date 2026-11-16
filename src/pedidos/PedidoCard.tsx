@@ -1,10 +1,10 @@
-/**
+﻿/**
  * ============================================================
- * PEDIDOS360 — TARJETA DE PEDIDO
+ * PEDIDOS360 â€” TARJETA DE PEDIDO
  * Archivo: src/pedidos/PedidoCard.tsx
  * ============================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Muestra un pedido: número, fecha, cliente, productos, total
  * y botones para pasar a otro estado.
  *
@@ -24,8 +24,8 @@
 import { ArrowRight, CalendarDays, Package2 } from 'lucide-react';
 
 // Tipos y reglas de negocio compartidas con la API de pedidos.
-import type { EstadoPedido, Pedido } from '../API/pedidosApi';
-import { transicionesPermitidas } from '../API/pedidosApi';
+import type { EstadoPedido, Pedido } from '../api/pedidosApi';
+import { transicionesPermitidas } from '../api/pedidosApi';
 import { PedidoEstado } from './PedidoEstado';
 
 /**
@@ -64,7 +64,7 @@ const formatoFecha = new Intl.DateTimeFormat('es-CL', {
 });
 
 /**
- * FUNCIÓN: etiquetaAccion()
+ * FUNCIÃ“N: etiquetaAccion()
  *
  * Traduce el código de un estado al texto del botón.
  * Recibe: EstadoPedido. Devuelve: string.
@@ -126,7 +126,7 @@ export function PedidoCard({
         <PedidoEstado estado={pedido.estado} />
       </header>
 
-      {/* INFORMACIÓN DEL PEDIDO. */}
+      {/* INFORMACIÃ“N DEL PEDIDO. */}
       <div className="order-meta">
         <span>
           <CalendarDays size={15} aria-hidden="true" />
@@ -191,7 +191,7 @@ export function PedidoCard({
               onClick={() => onTransition(pedido, estado)}
               disabled={pending}
             >
-              {saving ? 'Guardando…' : etiquetaAccion(estado)}
+              {saving ? 'Guardandoâ€¦' : etiquetaAccion(estado)}
               {estado !== 'CANCELADO' && (
                 <ArrowRight size={14} aria-hidden="true" />
               )}

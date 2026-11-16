@@ -1,11 +1,11 @@
-
+﻿
 /**
  * ==========================================================
- * PEDIDOS360 — PANEL PERSONAL DEL CLIENTE
+ * PEDIDOS360 â€” PANEL PERSONAL DEL CLIENTE
  * Archivo: src/inicio/InicioCliente.tsx
  * ==========================================================
  *
- * QUÉ HACE:
+ * QUÃ‰ HACE:
  * - Saluda al cliente usando su cuenta Microsoft.
  * - Muestra una ilustración del proyecto.
  * - Ofrece botones para Comprar y Mis pedidos.
@@ -66,9 +66,9 @@ import {
 import { useAuthorization } from '../usuarios/useAuthorization';
 import { resolveActiveAccount } from '../usuarios/activeAccount';
 
-import { useApi } from '../API/useApi';
-import { listarPedidos, type Pedido } from '../API/pedidosApi';
-import { apiErrorMessage } from '../API/clienteApi';
+import { useApi } from '../api/useApi';
+import { listarPedidos, type Pedido } from '../api/pedidosApi';
+import { apiErrorMessage } from '../api/clienteApi';
 
 import { PageHeader } from '../interfaz/PageHeader';
 import { PedidoEstado } from '../pedidos/PedidoEstado';
@@ -103,7 +103,7 @@ const formatoDinero = new Intl.NumberFormat('es-CL', {
 });
 
 /**
- * FUNCIÓN: formatearFecha()
+ * FUNCIÃ“N: formatearFecha()
  *
  * Convierte una fecha del backend en una fecha legible.
  */
@@ -245,7 +245,7 @@ export function InicioCliente() {
   ).length;
 
   /**
-   * ÚLTIMOS PEDIDOS
+   * ÃšLTIMOS PEDIDOS
    *
    * sort() ordena desde el más reciente.
    * slice(0, 3) conserva los primeros tres.
@@ -259,7 +259,7 @@ export function InicioCliente() {
     .slice(0, 3);
 
   /**
-   * FUNCIÓN: actualizarPedidos()
+   * FUNCIÃ“N: actualizarPedidos()
    *
    * Cambia revision y provoca una nueva consulta
    * mediante useEffect.
@@ -347,10 +347,10 @@ export function InicioCliente() {
           </button>
         </div>
 
-        {/* ESTADOS DE AUTORIZACIÓN Y CONSULTA */}
+        {/* ESTADOS DE AUTORIZACIÃ“N Y CONSULTA */}
         {authorization.loading && (
           <p className="cliente-aviso" role="status">
-            Verificando permisos de tu cuenta…
+            Verificando permisos de tu cuentaâ€¦
           </p>
         )}
 
@@ -374,13 +374,13 @@ export function InicioCliente() {
           puedeConsultar &&
           !api && (
             <p className="cliente-aviso" role="status">
-              Preparando la conexión con el servicio de pedidos…
+              Preparando la conexión con el servicio de pedidosâ€¦
             </p>
           )}
 
         {cargandoPedidos && (
           <p className="cliente-aviso" role="status">
-            Consultando tus pedidos…
+            Consultando tus pedidosâ€¦
           </p>
         )}
 

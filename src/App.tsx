@@ -1,4 +1,4 @@
-// src/App.tsx
+﻿// src/App.tsx
 //
 // Configuración principal de navegación y rutas de Pedidos360.
 //
@@ -11,7 +11,7 @@
 //
 // Inicio por rol:
 // - /inicio resuelve el panel correspondiente según el rol:
-//   Admin → /admin · Operador → /operador · Cliente → /cliente.
+//   Admin â†’ /admin · Operador â†’ /operador · Cliente â†’ /cliente.
 // - El Cliente compra en /comprar y NO tiene acceso a /catalogo.
 //
 // Las rutas utilizan nombres en español para mantener
@@ -19,11 +19,11 @@
 
 /**
  * ================================================================
- * PEDIDOS360 — RUTAS Y PANTALLAS DE LA APLICACIÓN
+ * PEDIDOS360 â€” RUTAS Y PANTALLAS DE LA APLICACIÃ“N
  * Archivo: src/App.tsx
  * ================================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Decide qué página se muestra según la dirección URL del navegador.
  * Además, coloca protecciones de autenticación y de roles.
  *
@@ -43,7 +43,7 @@
  * Ocultar rutas en React NO evita por sí solo llamadas a la API.
  * API Gateway debe validar el JWT y Lambda los roles/propietarios.
  *
- * INGLÉS:
+ * INGLÃ‰S:
  * route = ruta; router = enrutador; navigate = redirigir;
  * outlet = espacio donde aparece una página hija;
  * scroll = desplazamiento; provider = proveedor.
@@ -57,22 +57,6 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { useEffect } from 'react';
-import { RequireAuth } from './auth/RequireAuth';
-import { RequireRole } from './auth/RequireRole';
-import { AppShell } from './components/layout/AppShell';
-import { ToastProvider } from './components/ToastProvider';
-import { Landing } from './pages/Landing';
-import { CatalogoDemo } from './pages/CatalogoDemo';
-import { Inicio } from './pages/Inicio';
-import { PanelAdmin } from './pages/PanelAdmin';
-import { PanelOperador } from './pages/PanelOperador';
-import { InicioCliente } from './pages/InicioCliente';
-import { Comprar } from './pages/Comprar';
-import { Catalogo } from './pages/Catalogo';
-import { Pedidos } from './pages/Pedidos';
-import { Perfil } from './pages/Perfil';
-
 
 // Protecciones de sesión y roles.
 import { RequireAuth } from './usuarios/RequireAuth';
@@ -98,13 +82,17 @@ import { Catalogo } from './catalogo/Catalogo';
 import { Pedidos } from './pedidos/Pedidos';
 import { Perfil } from './usuarios/Perfil';
 
+// Páginas de analítica (servicios de Kafka del proyecto Pedidos360-Kafka).
+import { Reportes } from './kafka/Reportes';
+import { Auditoria } from './kafka/Auditoria';
+
 /**
  * COMPONENTE: ScrollToTop()
  *
  * Se ejecuta dentro de BrowserRouter para poder leer useLocation().
  * Cuando cambia pathname, mueve al principio la zona de contenido.
  *
- * useEffect() ejecuta el efecto DESPUÉS de actualizar la vista.
+ * useEffect() ejecuta el efecto DESPUÃ‰S de actualizar la vista.
  * document.getElementById('main-content') es el contenedor que
  * AppShell.tsx utiliza para las páginas privadas.
  *
@@ -160,79 +148,17 @@ export default function App() {
             <Route element={<RequireRole roles={['Admin', 'Operador', 'Cliente']} />}>
               <Route path="/pedidos" element={<Pedidos />} />
             </Route>
+            {/* Analítica: la consumen los servicios de Kafka (report y audit). */}
+            <Route element={<RequireRole roles={['Admin', 'Operador']} />}>
+              <Route path="/reportes" element={<Reportes />} />
+              <Route path="/auditoria" element={<Auditoria />} />
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </ToastProvider>
 
-    </BrowserRouter>
-  );
-}
-
-      {/* Permite que las pantallas compartan avisos mediante useToasts().
-          La consulta AWS de notificaciones sigue deshabilitada hasta
-          que exista una ruta segura en API Gateway. */}
-      <ToastProvider>
-        <Routes>
-          {/* RUTAS PÚBLICAS: no exigen inicio de sesión. */}
-          <Route path="/" element={<Landing />} />
-          <Route path="/catalogo-demo" element={<CatalogoDemo />} />
-
-          {/* RUTAS PRIVADAS: RequireAuth comprueba sesión Microsoft. */}
-          <Route element={<RequireAuth />}>
-            {/* AppShell muestra el mismo menú en todas las páginas privadas.
-                <Outlet /> es donde aparece la ruta hija seleccionada. */}
-            <Route element={<AppShell />}>
-
-              {/* /inicio decide a qué panel ir según el rol de la cuenta. */}
-              <Route path="/inicio" element={<Inicio />} />
-
-              {/* Redirección compatible con una URL anterior. */}
-              <Route
-                path="/dashboard"
-                element={<Navigate to="/inicio" replace />}
-              />
-
-              {/* Cualquier persona autenticada puede consultar su perfil. */}
-              <Route path="/perfil" element={<Perfil />} />
-
-              {/* SOLO ADMIN: panel de estadísticas y administración. */}
-              <Route element={<RequireRole roles={['Admin']} />}>
-                <Route path="/admin" element={<PanelAdmin />} />
-              </Route>
-
-              {/* SOLO OPERADOR: pantalla operativa. */}
-              <Route element={<RequireRole roles={['Operador']} />}>
-                <Route path="/operador" element={<PanelOperador />} />
-              </Route>
-
-              {/* SOLO CLIENTE: inicio personal y carrito de compras. */}
-              <Route element={<RequireRole roles={['Cliente']} />}>
-                <Route path="/cliente" element={<InicioCliente />} />
-                <Route path="/comprar" element={<Comprar />} />
-              </Route>
-
-              {/* ADMIN U OPERADOR: catálogo administrativo. */}
-              <Route element={<RequireRole roles={['Admin', 'Operador']} />}>
-                <Route path="/catalogo" element={<Catalogo />} />
-              </Route>
-
-              {/* ADMIN, OPERADOR O CLIENTE: ven pedidos según backend.
-                  La Lambda decide cuáles corresponden a cada usuario. */}
-              <Route
-                element={<RequireRole roles={['Admin', 'Operador', 'Cliente']} />}
-              >
-                <Route path="/pedidos" element={<Pedidos />} />
-              </Route>
-            </Route>
-          </Route>
-
-          {/* * captura rutas desconocidas y vuelve a la portada.
-              replace evita dejar una ruta inválida en el historial. */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </ToastProvider>
     </BrowserRouter>
   );
 }

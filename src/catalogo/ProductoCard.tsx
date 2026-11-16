@@ -1,5 +1,5 @@
-/**
- * PEDIDOS360 — TARJETA PASTEL DE PRODUCTO
+﻿/**
+ * PEDIDOS360 â€” TARJETA PASTEL DE PRODUCTO
  * Archivo: src/catalogo/ProductoCard.tsx
  *
  * Solo presenta información real y comunica los clics a Catalogo.tsx.
@@ -19,7 +19,7 @@ import {
   Trash2,
   type LucideIcon,
 } from 'lucide-react';
-import type { Producto } from '../API/catalogoApi';
+import type { Producto } from '../api/catalogoApi';
 
 interface ProductoCardProps {
   producto: Producto;
@@ -144,7 +144,7 @@ export function ProductoCard({
           )}
         </div>
       </div>
-      {deleting && <span className="card-pending" role="status">Eliminando…</span>}
+      {deleting && <span className="card-pending" role="status">Eliminandoâ€¦</span>}
     </article>
   );
 }

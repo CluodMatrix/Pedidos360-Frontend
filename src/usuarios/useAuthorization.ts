@@ -1,10 +1,10 @@
-/**
+﻿/**
  * ============================================================
- * PEDIDOS360 — AUTORIZACIÓN DEL USUARIO
+ * PEDIDOS360 â€” AUTORIZACIÃ“N DEL USUARIO
  * Archivo: src/usuarios/useAuthorization.ts
  * ============================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Obtiene el access token de la cuenta activa y lee los roles y
  * permisos (scopes) que Microsoft Entra incluyó en ese token.
  *
@@ -28,7 +28,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useMsal } from '@azure/msal-react';
 
-import { acquireApiToken } from '../API/clienteApi';
+import { acquireApiToken } from '../api/clienteApi';
 import { decodeJwt, rolesOf, scopesOf } from './jwt';
 import { resolveActiveAccount } from './activeAccount';
 

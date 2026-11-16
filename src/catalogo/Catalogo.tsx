@@ -1,8 +1,8 @@
-/**
- * PEDIDOS360 — CATÁLOGO ADMINISTRATIVO CON DISEÑO PASTEL
+﻿/**
+ * PEDIDOS360 â€” CATÁLOGO ADMINISTRATIVO CON DISEÃ‘O PASTEL
  * Archivo: src/catalogo/Catalogo.tsx
  *
- * QUÉ HACE:
+ * QUÃ‰ HACE:
  * - Consulta productos REALES del backend, sin inventar cantidades.
  * - Calcula indicadores de stock, busca y filtra SOLO en el navegador.
  * - Conserva crear, editar y eliminar con los permisos existentes.
@@ -28,15 +28,15 @@ import {
   Plus, RefreshCw, Search, SlidersHorizontal, X,
 } from 'lucide-react';
 
-import { useApi } from '../API/useApi';
+import { useApi } from '../api/useApi';
 import {
   actualizarProducto,
   crearProducto,
   eliminarProducto,
   listarCatalogo,
   type Producto,
-} from '../API/catalogoApi';
-import { ApiError, apiErrorDetails, apiErrorMessage } from '../API/clienteApi';
+} from '../api/catalogoApi';
+import { ApiError, apiErrorDetails, apiErrorMessage } from '../api/clienteApi';
 import { useAuthorization } from '../usuarios/useAuthorization';
 import { ProductoCard } from './ProductoCard';
 import { ProductoForm, type ProductoFormValues } from './ProductoForm';
@@ -266,7 +266,7 @@ export function Catalogo() {
       <header className="catalogo-header">
         <div className="catalogo-titulos">
           <p className="catalogo-eyebrow">
-            ADMINISTRACIÓN <ChevronRight size={14} aria-hidden="true" /> <span>Catálogo</span>
+            ADMINISTRACIÃ“N <ChevronRight size={14} aria-hidden="true" /> <span>Catálogo</span>
           </p>
           <div className="catalogo-title-row">
             <span className="catalogo-title-icon" aria-hidden="true"><Boxes size={32} /></span>
@@ -298,13 +298,13 @@ export function Catalogo() {
         </div>
       </header>
 
-      {authorizationLoading && <CatalogoLoading mensaje="Verificando permisos…" />}
+      {authorizationLoading && <CatalogoLoading mensaje="Verificando permisosâ€¦" />}
       {!authorizationLoading && authorization.error && <ErrorState message={authorization.error} />}
       {!authorizationLoading && !authorization.error && !canRead && (
         <ErrorState message="Tu sesión no incluye el permiso catalog.read para consultar productos." />
       )}
       {!authorizationLoading && !authorization.error && canRead && !api && (
-        <CatalogoLoading mensaje="Preparando conexión…" />
+        <CatalogoLoading mensaje="Preparando conexiónâ€¦" />
       )}
       {isAdmin && !canWrite && !authorizationLoading && (
         <p className="permission-note">Tu rol permite administrar el catálogo, pero la sesión no incluye catalog.write.</p>
@@ -320,7 +320,7 @@ export function Catalogo() {
         />
       )}
       {!authorizationLoading && canRead && api && loading && !error && (
-        <CatalogoLoading mensaje="Cargando productos…" />
+        <CatalogoLoading mensaje="Cargando productosâ€¦" />
       )}
 
       {catalogoListo && (
@@ -337,7 +337,7 @@ export function Catalogo() {
             </div>
             <div className="catalogo-stat catalogo-stat--low">
               <span className="catalogo-stat-icon"><AlertTriangle size={27} aria-hidden="true" /></span>
-              <div><strong>{indicadores.bajos}</strong><span>Stock bajo (1–{LIMITE_STOCK_BAJO})</span></div>
+              <div><strong>{indicadores.bajos}</strong><span>Stock bajo (1â€“{LIMITE_STOCK_BAJO})</span></div>
             </div>
             <div className="catalogo-stat catalogo-stat--out">
               <span className="catalogo-stat-icon"><PackageX size={27} aria-hidden="true" /></span>
@@ -429,7 +429,7 @@ export function Catalogo() {
       {confirmingDelete && (
         <ConfirmDialog
           title="Eliminar producto"
-          message={`¿Seguro que quieres eliminar “${confirmingDelete.nombre}”? Esta acción no se puede deshacer.`}
+          message={`¿Seguro que quieres eliminar â€œ${confirmingDelete.nombre}â€? Esta acción no se puede deshacer.`}
           confirmLabel="Eliminar producto"
           busy={deletingId === confirmingDelete.id}
           onConfirm={() => void handleDelete(confirmingDelete)}

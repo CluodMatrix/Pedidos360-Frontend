@@ -1,69 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { PublicClientApplication, EventType } from '@azure/msal-browser';
-import type { EventMessage, AuthenticationResult } from '@azure/msal-browser';
-import { MsalProvider } from '@azure/msal-react';
-import { msalConfig } from './auth/authConfig';
-import { resolveActiveAccount } from './auth/activeAccount';
-import App from './App';
-import './css/variables.css';
-import './css/global.css';
-import './css/layout.css';
-import './css/sidebar.css';
-import './css/components.css';
-import './css/forms.css';
-import './css/landing.css';
-import './css/dashboard.css';
-import './css/catalogo.css';
-import './css/pedidos.css';
-import './css/responsive.css';
-import './css/toast.css';
-
-const msalInstance = new PublicClientApplication(msalConfig);
-
-msalInstance.addEventCallback((event: EventMessage) => {
-  if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
-    const payload = event.payload as AuthenticationResult;
-    // La cuenta que acaba de completar el login ES la cuenta activa:
-    // no filtrar por tenant aquí para no descartar invitados/otras cuentas
-    // y volver al usuario anterior después de "Cambiar cuenta".
-    if (payload.account) {
-      msalInstance.setActiveAccount(payload.account);
-/**
- * ================================================================
- * PEDIDOS360 — PUNTO DE ENTRADA DE REACT
- * Archivo: src/main.tsx
- * ================================================================
- *
- * ¿QUÉ HACE?
- * Este es el primer archivo TypeScript/React que se ejecuta al abrir
- * Pedidos360 en el navegador.
- *
- * FLUJO:
- * index.html (contiene <div id="root">)
- *   -> main.tsx (inicializa Microsoft MSAL)
- *   -> <MsalProvider> (comparte autenticación)
- *   -> <App /> (selecciona las rutas)
- *   -> páginas y componentes de Pedidos360.
- *
- * CONEXIONES:
- * - usuarios/authConfig.ts: datos públicos de configuración Microsoft.
- * - usuarios/activeAccount.ts: cuenta que debe quedar activa.
- * - App.tsx: enrutador de la aplicación.
- * - estilos/*.css: apariencia global y componentes.
- *
- * ¿LLAMA A AWS?
- * NO. Aquí se prepara Microsoft Entra ID y se inicia React.
- * API/clienteApi.ts es quien enviará peticiones a AWS después.
- *
- * INGLÉS:
- * bootstrap = iniciar/preparar la aplicación;
- * root = raíz; render = dibujar componentes;
- * event = evento; callback = función que responde a un evento;
- * redirect = redirección; provider = proveedor; cache = caché.
- */
-
-// React y su motor de renderizado en el navegador.
+﻿// React y su motor de renderizado en el navegador.
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -98,6 +33,7 @@ import './estilos/catalogo.css';
 import './estilos/pedidos.css';
 import './estilos/responsive.css';
 import './estilos/toast.css';
+import './estilos/reportes.css';
 
 /**
  * INSTANCIA: msalInstance
@@ -137,11 +73,8 @@ msalInstance.addEventCallback((event: EventMessage) => {
   }
 });
 
-async function bootstrap() {
-  const rootElement = document.getElementById('root');
-  if (!rootElement) throw new Error('No se encontró el contenedor de la aplicación.');
 /**
- * FUNCIÓN: bootstrap()
+ * FUNCIÃ“N: bootstrap()
  *
  * bootstrap significa «arranque» o «preparación inicial».
  *
@@ -168,21 +101,6 @@ async function bootstrap() {
   const root = ReactDOM.createRoot(rootElement);
 
   try {
-    await msalInstance.initialize();
-
-    // Procesar la respuesta del redirect ANTES de resolver la cuenta activa.
-    //
-    // Sin esto, "Cambiar cuenta" no funciona: la cuenta elegida en Microsoft
-    // todavia no esta en la cache cuando se resuelve la cuenta activa, asi
-    // que se elige la anterior (que queda ademas persistida como activa) y la
-    // app se queda mostrando el panel del usuario viejo.
-    const resultado = await msalInstance.handleRedirectPromise();
-    if (resultado?.account) {
-      msalInstance.setActiveAccount(resultado.account);
-    }
-
-    const account = resolveActiveAccount(msalInstance, msalInstance.getAllAccounts());
-    // Prepara el sistema de cuentas, almacenamiento y autenticación MSAL.
     await msalInstance.initialize();
 
     // Procesa la respuesta cuando Microsoft redirige de regreso a la SPA.
@@ -222,10 +140,6 @@ async function bootstrap() {
       </React.StrictMode>,
     );
   } catch {
-    root.render(
-      <main className="startup-error">
-        <h1>Pedidos360</h1>
-        <p>No se pudo iniciar la autenticación. Recarga la página o inténtalo más tarde.</p>
     // Si la autenticación no pudo prepararse, mostramos un error legible.
     // Evitamos exponer datos sensibles del proveedor al usuario.
     root.render(

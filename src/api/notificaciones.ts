@@ -1,4 +1,4 @@
-// src/api/notificaciones.ts
+﻿// src/api/notificaciones.ts
 //
 // Eventos que ya pasaron por SNS + SQS y que la interfaz muestra como avisos.
 //

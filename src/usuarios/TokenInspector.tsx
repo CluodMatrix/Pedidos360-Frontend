@@ -1,14 +1,14 @@
-/**
+﻿/**
  * ================================================================
- * PEDIDOS360 — INSPECTOR DE PERMISOS (SOLO DESARROLLO)
+ * PEDIDOS360 â€” INSPECTOR DE PERMISOS (SOLO DESARROLLO)
  * Archivo: src/usuarios/TokenInspector.tsx
  * ================================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Permite estudiar cinco datos de un access token de Pedidos360-API:
  * audiencia (aud), emisor (iss), permisos (scp), roles y expiración (exp).
  *
- * ¿CON QUÉ ARCHIVOS SE CONECTA?
+ * ¿CON QUÃ‰ ARCHIVOS SE CONECTA?
  * - inicio/PanelAdmin.tsx: lo incorpora en el panel del administrador.
  * - usuarios/activeAccount.ts: identifica la cuenta de Microsoft activa.
  * - API/clienteApi.ts: acquireApiToken() solicita el token mediante MSAL.
@@ -16,7 +16,7 @@
  * - estilos/components.css: estilo pastel del inspector y sus tarjetas.
  * - estilos/dashboard.css: organiza la sección en todo el ancho del panel.
  *
- * FLUJO DE AUTENTICACIÓN:
+ * FLUJO DE AUTENTICACIÃ“N:
  * TokenInspector -> acquireApiToken() -> MSAL -> Microsoft Entra ID.
  *
  * ¿LLAMA A AWS, LAMBDA O DYNAMODB?
@@ -44,7 +44,7 @@ import { useMsal } from '@azure/msal-react';
 // Iconos de Lucide: son decorativos y NO llaman a ningún servicio.
 import { KeyRound, LockKeyhole, RefreshCw, ShieldCheck } from 'lucide-react';
 
-import { acquireApiToken, apiErrorMessage } from '../API/clienteApi';
+import { acquireApiToken, apiErrorMessage } from '../api/clienteApi';
 import { resolveActiveAccount } from './activeAccount';
 import { decodeJwt, rolesOf, scopesOf, type JwtClaims } from './jwt';
 
@@ -72,7 +72,7 @@ interface ResultadoInspeccion {
 }
 
 /**
- * FUNCIÓN: resumirClaims()
+ * FUNCIÃ“N: resumirClaims()
  * Toma el objeto decodificado y conserva SOLO los datos necesarios.
  * Array.isArray(): comprueba si 'aud' es una lista de destinatarios.
  * Number.isFinite(): comprueba que la fecha de expiración sea un número válido.
@@ -92,7 +92,7 @@ function resumirClaims(claims: JwtClaims): ResumenPermisos {
 }
 
 /**
- * FUNCIÓN: formatearExpiracion()
+ * FUNCIÃ“N: formatearExpiracion()
  * La propiedad exp de un JWT está en SEGUNDOS desde 1970.
  * JavaScript Date necesita MILISEGUNDOS; por eso multiplicamos por 1000.
  * Formateamos la fecha con el idioma y formato de Chile (es-CL).
@@ -130,7 +130,7 @@ export function TokenInspector() {
   const loading = Boolean(accountKey && inspeccionando === accountKey);
 
   /**
-   * FUNCIÓN: handleInspect()
+   * FUNCIÃ“N: handleInspect()
    * handle = manejar; inspect = inspeccionar.
    *
    * 1. Evita duplicar una solicitud que está en curso.
@@ -197,7 +197,7 @@ export function TokenInspector() {
           disabled={loading || !account}
         >
           <RefreshCw size={17} aria-hidden="true" />
-          {loading ? 'Consultando permisos…' : 'Inspeccionar permisos'}
+          {loading ? 'Consultando permisosâ€¦' : 'Inspeccionar permisos'}
         </button>
       </div>
 
@@ -219,7 +219,7 @@ export function TokenInspector() {
         </p>
       )}
 
-      {loading && <p className="token-inspector-cargando" role="status">Leyendo los permisos de Microsoft…</p>}
+      {loading && <p className="token-inspector-cargando" role="status">Leyendo los permisos de Microsoftâ€¦</p>}
 
       {/* RESULTADO: una cuadrícula de cinco tarjetas claras, con datos reales. */}
       {resumenActual && (

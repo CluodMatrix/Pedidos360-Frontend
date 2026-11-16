@@ -1,4 +1,4 @@
-// src/api/pedidos.ts
+﻿// src/api/pedidos.ts
 //
 // Funciones relacionadas con la gestión de pedidos de Pedidos360.
 // La comunicación se realiza mediante ApiClient, que automáticamente

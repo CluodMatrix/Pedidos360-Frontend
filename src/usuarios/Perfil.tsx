@@ -1,10 +1,10 @@
-/**
+﻿/**
  * ================================================================
- * PEDIDOS360 — PÁGINA «MI PERFIL»
+ * PEDIDOS360 â€” PÁGINA «MI PERFIL»
  * Archivo: src/usuarios/Perfil.tsx
  * ================================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Muestra nombre, correo, roles y scopes de la cuenta Microsoft.
  * En DESARROLLO, también presenta un diagnóstico básico del JWT.
  *
@@ -20,14 +20,14 @@
  * Solicita a Microsoft un token dirigido a la API que, cuando
  * otra pantalla hace fetch(), API Gateway podrá verificar.
  *
- * INGLÉS:
+ * INGLÃ‰S:
  * profile = perfil; claim = dato del token; loading = cargando;
  * access token = token de acceso; snapshot = resultado guardado.
  */
 
 import { useEffect, useState } from 'react';
 import { useMsal } from '@azure/msal-react';
-import { acquireApiToken, apiErrorMessage } from '../API/clienteApi';
+import { acquireApiToken, apiErrorMessage } from '../api/clienteApi';
 import { useAuthorization } from './useAuthorization';
 import { PageHeader } from '../interfaz/PageHeader';
 import { decodeJwt, type JwtClaims } from './jwt';
@@ -175,7 +175,7 @@ export function Perfil() {
             <dt>Rol</dt>
             <dd>
               {authorization.loading
-                ? 'Consultando…'
+                ? 'Consultandoâ€¦'
                 : authorization.roles.join(', ') || 'Sin roles asignados'}
             </dd>
           </div>
@@ -183,7 +183,7 @@ export function Perfil() {
             <dt>Scopes de la API</dt>
             <dd>
               {authorization.loading
-                ? 'Consultando…'
+                ? 'Consultandoâ€¦'
                 : authorization.scopes.join(', ') || 'Sin scopes disponibles'}
             </dd>
           </div>
@@ -206,7 +206,7 @@ export function Perfil() {
 
           {loading && (
             <p className="muted-copy" role="status">
-              Consultando claims del access token…
+              Consultando claims del access tokenâ€¦
             </p>
           )}
           {!accountKey && (

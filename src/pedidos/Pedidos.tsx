@@ -1,10 +1,10 @@
-/**
+﻿/**
  * ============================================================
- * PEDIDOS360 — PÁGINA DE PEDIDOS
+ * PEDIDOS360 â€” PÁGINA DE PEDIDOS
  * Archivo: src/pedidos/Pedidos.tsx
  * ============================================================
  *
- * ¿QUÉ HACE?
+ * ¿QUÃ‰ HACE?
  * Muestra los pedidos del usuario y, según su rol, permite
  * crear pedidos o cambiar su estado.
  *
@@ -18,7 +18,7 @@
  * - PedidoForm.tsx: recoge producto y cantidad.
  * - interfaz/: encabezado y mensajes reutilizables.
  *
- * CONEXIÓN CON AWS:
+ * CONEXIÃ“N CON AWS:
  * React -> clienteApi.ts -> AWS API Gateway -> Lambda
  * pedidos360-pedidos -> DynamoDB.
  * La Lambda también puede publicar eventos en SNS, que se
@@ -43,11 +43,11 @@ import {
 import { RefreshCw } from 'lucide-react';
 
 // useApi entrega el cliente HTTP con la cuenta MSAL activa.
-import { useApi } from '../API/useApi';
+import { useApi } from '../api/useApi';
 import { useAuthorization } from '../usuarios/useAuthorization';
 
 // Productos utilizados para elegir artículos del pedido.
-import { listarCatalogo, type Producto } from '../API/catalogoApi';
+import { listarCatalogo, type Producto } from '../api/catalogoApi';
 
 // Operaciones HTTP y tipos de la API de pedidos.
 import {
@@ -57,10 +57,10 @@ import {
   transicionesPermitidas,
   type Pedido,
   type EstadoPedido,
-} from '../API/pedidosApi';
+} from '../api/pedidosApi';
 
 // Mensajes de error y componentes visuales de uso compartido.
-import { apiErrorMessage } from '../API/clienteApi';
+import { apiErrorMessage } from '../api/clienteApi';
 import { PageHeader } from '../interfaz/PageHeader';
 import { EmptyState } from '../interfaz/EmptyState';
 import { ErrorState } from '../interfaz/ErrorState';
@@ -69,7 +69,7 @@ import { PedidoCard } from './PedidoCard';
 import { PedidoForm } from './PedidoForm';
 
 /**
- * FUNCIÓN: formatearEstado()
+ * FUNCIÃ“N: formatearEstado()
  *
  * Recibe un código de estado y devuelve una etiqueta en español.
  * Solo prepara texto; no modifica pedidos ni consulta AWS.
@@ -93,7 +93,7 @@ function formatearEstado(estado: EstadoPedido): string {
  */
 export function Pedidos() {
   /**
-   * 1. AUTENTICACIÓN Y PERMISOS
+   * 1. AUTENTICACIÃ“N Y PERMISOS
    *
    * api: objeto HTTP que se crea para la cuenta activa.
    * authorization: roles, scopes, carga y error de permisos.
@@ -160,19 +160,19 @@ export function Pedidos() {
   const numeroSolicitud = useRef(0);
 
   /**
-   * 3. FUNCIÓN: cargarPedidos()
+   * 3. FUNCIÃ“N: cargarPedidos()
    *
-   * ¿QUÉ HACE?
+   * ¿QUÃ‰ HACE?
    * Solicita al backend los pedidos visibles para la cuenta.
    *
-   * CONEXIÓN:
+   * CONEXIÃ“N:
    * listarPedidos(api) -> GET /pedidos -> API Gateway
    * -> Lambda pedidos360-pedidos -> DynamoDB.
    *
    * useCallback: memoriza la función mientras sus
    * dependencias no cambien. La usan useEffect y Actualizar.
    *
-   * CORRECCIÓN:
+   * CORRECCIÃ“N:
    * Antes había dos consultas equivalentes (en cargarPedidos
    * y en useEffect). Ahora ambas acciones usan esta función.
    */
@@ -211,7 +211,7 @@ export function Pedidos() {
   }, [api, authorizationLoading, canRead]);
 
   /**
-   * 4. useEffect — CARGA AUTOMÁTICA DE PEDIDOS
+   * 4. useEffect â€” CARGA AUTOMÁTICA DE PEDIDOS
    *
    * Effect = efecto: operación que React realiza cuando
    * se monta la página o cambian sus dependencias.
@@ -230,12 +230,12 @@ export function Pedidos() {
   }, [authorizationLoading, cargarPedidos]);
 
   /**
-   * 5. useEffect — CARGA DEL CATÁLOGO PARA EL FORMULARIO
+   * 5. useEffect â€” CARGA DEL CATÁLOGO PARA EL FORMULARIO
    *
    * Solo el Operador con permisos de lectura del catálogo
    * necesita esta lista en la pantalla de Pedidos.
    *
-   * CONEXIÓN:
+   * CONEXIÃ“N:
    * GET /catalogo -> Lambda pedidos360-catalogo -> DynamoDB.
    *
    * «vigente» evita mostrar productos antiguos si cambiamos
@@ -290,7 +290,7 @@ export function Pedidos() {
   }, [api, authorizationLoading, puedeCrear, canReadCatalog]);
 
   /**
-   * 6. FUNCIÓN: actualizar()
+   * 6. FUNCIÃ“N: actualizar()
    *
    * Se ejecuta al presionar el botón «Actualizar».
    * Reutiliza la misma función de la carga inicial;
@@ -301,14 +301,14 @@ export function Pedidos() {
   }
 
   /**
-   * 7. FUNCIÓN: handleCreate()
+   * 7. FUNCIÃ“N: handleCreate()
    *
    * Handle = manejar; Create = crear.
    *
    * Recibe el evento submit del formulario.
    * preventDefault() evita recargar el navegador.
    *
-   * CONEXIÓN:
+   * CONEXIÃ“N:
    * PedidoForm -> handleCreate -> crearPedido(api, ...)
    * -> POST /pedidos -> API Gateway
    * -> Lambda pedidos360-pedidos -> DynamoDB.
@@ -379,14 +379,14 @@ export function Pedidos() {
   }
 
   /**
-   * 8. FUNCIÓN: handleTransition()
+   * 8. FUNCIÃ“N: handleTransition()
    *
    * Transition = transición o cambio de estado.
    *
    * Recibe un pedido y el nuevo estado seleccionado.
    * Este evento llega desde el botón de PedidoCard.tsx.
    *
-   * CONEXIÓN:
+   * CONEXIÃ“N:
    * PedidoCard -> handleTransition -> actualizarEstadoPedido
    * -> PUT /pedidos/{id}/estado -> API Gateway
    * -> Lambda pedidos360-pedidos -> DynamoDB.
@@ -433,7 +433,7 @@ export function Pedidos() {
   const backendPendiente = error === 'El backend aún no está configurado.';
 
   /**
-   * 9. JSX — INTERFAZ VISUAL
+   * 9. JSX â€” INTERFAZ VISUAL
    *
    * JSX = sintaxis para describir la pantalla en React.
    * Los componentes reciben props y muestran datos.
@@ -472,7 +472,7 @@ export function Pedidos() {
       )}
 
       {authorizationLoading && (
-        <LoadingState message="Comprobando tus permisos…" />
+        <LoadingState message="Comprobando tus permisosâ€¦" />
       )}
 
       {!authorizationLoading && authorization.error && (
@@ -487,7 +487,7 @@ export function Pedidos() {
       )}
 
       {!authorizationLoading && !authorization.error && canRead && !api && (
-        <LoadingState message="Preparando la conexión con el backend…" />
+        <LoadingState message="Preparando la conexión con el backendâ€¦" />
       )}
 
       {/* Formulario del Operador para crear pedidos. */}
@@ -528,7 +528,7 @@ export function Pedidos() {
       {/* Loading = cargando información desde AWS. */}
       {!error && loading && !backendPendiente &&
         !authorizationLoading && !authorization.error && canRead && api && (
-          <LoadingState message="Cargando pedidos…" />
+          <LoadingState message="Cargando pedidosâ€¦" />
         )}
 
       {/* Empty = vacío: el usuario no tiene pedidos visibles. */}

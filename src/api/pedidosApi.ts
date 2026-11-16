@@ -1,11 +1,11 @@
-
+﻿
 /**
  * ============================================================
- * PEDIDOS360 — API DE PEDIDOS
+ * PEDIDOS360 â€” API DE PEDIDOS
  * Archivo: src/API/pedidosApi.ts
  * ============================================================
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Contiene los tipos y funciones necesarios para
  * gestionar pedidos desde el frontend.
  *
@@ -157,9 +157,9 @@ interface PedidosResponse {
 }
 
 /**
- * FUNCIÓN: transicionesPermitidas()
+ * FUNCIÃ“N: transicionesPermitidas()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Indica a qué estados puede pasar un pedido
  * desde su estado actual.
  *
@@ -177,7 +177,7 @@ interface PedidosResponse {
  * transicionesPermitidas('CREADO')
  * Devuelve ['ACEPTADO', 'CANCELADO'].
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * La interfaz puede utilizar esta función
  * para mostrar las acciones disponibles.
  *
@@ -214,16 +214,16 @@ export function transicionesPermitidas(
 }
 
 /**
- * FUNCIÓN: listarPedidos()
+ * FUNCIÃ“N: listarPedidos()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Consulta los pedidos registrados en el backend.
  *
- * MÉTODO HTTP: GET
+ * MÃ‰TODO HTTP: GET
  * RUTA: /pedidos
  * SCOPE: orders.read
  *
- * CONEXIÓN AWS:
+ * CONEXIÃ“N AWS:
  * React -> clienteApi.ts -> API Gateway
  * -> Lambda pedidos360-pedidos -> DynamoDB.
  *
@@ -268,7 +268,7 @@ export async function listarPedidos(
    * Si no encontramos alguna de las estructuras
    * esperadas, devolvemos una lista vacía.
    *
-   * OBSERVACIÓN:
+   * OBSERVACIÃ“N:
    * Esto conserva el comportamiento original,
    * aunque podría ocultar un formato inesperado.
    */
@@ -276,12 +276,12 @@ export async function listarPedidos(
 }
 
 /**
- * FUNCIÓN: obtenerPedido()
+ * FUNCIÃ“N: obtenerPedido()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Consulta un pedido específico por ID.
  *
- * MÉTODO HTTP: GET
+ * MÃ‰TODO HTTP: GET
  * RUTA: /pedidos/{id}
  * SCOPE: orders.read
  *
@@ -305,12 +305,12 @@ export async function obtenerPedido(
 }
 
 /**
- * FUNCIÓN: crearPedido()
+ * FUNCIÃ“N: crearPedido()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Envía una nueva compra al backend.
  *
- * MÉTODO HTTP: POST
+ * MÃ‰TODO HTTP: POST
  * RUTA: /pedidos
  * SCOPE: orders.write
  *
@@ -318,7 +318,7 @@ export async function obtenerPedido(
  * api: cliente HTTP.
  * pedido: productos y cantidades solicitadas.
  *
- * CONEXIÓN AWS:
+ * CONEXIÃ“N AWS:
  * Comprar.tsx -> crearPedido()
  * -> clienteApi.ts -> API Gateway
  * -> Lambda pedidos360-pedidos.
@@ -346,12 +346,12 @@ export async function crearPedido(
 }
 
 /**
- * FUNCIÓN: actualizarEstadoPedido()
+ * FUNCIÃ“N: actualizarEstadoPedido()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Solicita cambiar el estado de un pedido.
  *
- * MÉTODO HTTP: PUT
+ * MÃ‰TODO HTTP: PUT
  * RUTA: /pedidos/{id}/estado
  * SCOPE: orders.write
  *
@@ -359,7 +359,7 @@ export async function crearPedido(
  * id: identificador del pedido.
  * estado: nuevo estado solicitado.
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * Pedidos.tsx -> actualizarEstadoPedido()
  * -> clienteApi.ts -> API Gateway
  * -> Lambda pedidos360-pedidos.
@@ -386,9 +386,9 @@ export async function actualizarEstadoPedido(
 }
 
 /**
- * FUNCIÓN: cancelarPedido()
+ * FUNCIÃ“N: cancelarPedido()
  *
- * ¿PARA QUÉ SIRVE?
+ * ¿PARA QUÃ‰ SIRVE?
  * Solicita la cancelación de un pedido.
  *
  * No realiza una solicitud diferente.
@@ -397,7 +397,7 @@ export async function actualizarEstadoPedido(
  * ESTADO SOLICITADO:
  * CANCELADO
  *
- * CONEXIÓN:
+ * CONEXIÃ“N:
  * cancelarPedido()
  * -> actualizarEstadoPedido()
  * -> clienteApi.ts

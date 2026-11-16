@@ -26,8 +26,10 @@
 
 import { useState } from 'react';
 import {
+  BarChart3,
   Boxes,
   ClipboardList,
+  History,
   Home,
   ShoppingBag,
   UserRound,
@@ -265,6 +267,29 @@ export function Sidebar({
               >
                 <ClipboardList size={19} strokeWidth={1.9} aria-hidden="true" />
                 <span>Pedidos</span>
+              </NavLink>
+            )}
+
+            {/* ANALITICA: la consumen los servicios de Kafka (report y audit). */}
+            {canSeeCatalog && (
+              <NavLink
+                to="/reportes"
+                className={linkClass}
+                onClick={onNavigate}
+              >
+                <BarChart3 size={19} strokeWidth={1.9} aria-hidden="true" />
+                <span>Reportes</span>
+              </NavLink>
+            )}
+
+            {canSeeCatalog && (
+              <NavLink
+                to="/auditoria"
+                className={linkClass}
+                onClick={onNavigate}
+              >
+                <History size={19} strokeWidth={1.9} aria-hidden="true" />
+                <span>Auditoría</span>
               </NavLink>
             )}
           </>

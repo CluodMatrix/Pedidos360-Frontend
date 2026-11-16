@@ -1,4 +1,4 @@
-  // src/api/catalogo.ts
+﻿  // src/api/catalogo.ts
   //
   // Funciones relacionadas con el catálogo de productos.
   // Este archivo no contiene componentes visuales.
