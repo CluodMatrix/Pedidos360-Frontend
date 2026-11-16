@@ -1,0 +1,20 @@
+.form-grid { display: grid; gap: 16px; padding: 22px; }
+.form-field { display: grid; min-width: 0; gap: 6px; color: var(--text-primary); font-size: 12px; font-weight: 700; }
+.form-field input, .form-field textarea, .form-field select { width: 100%; min-height: 42px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 6px; outline: none; background: #140f0a; color: var(--text-primary); font-weight: 450; }
+.form-field textarea { min-height: 88px; resize: vertical; }
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(208, 160, 64, .22); }
+.form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.form-dialog, .confirm-dialog { width: min(520px, calc(100% - 28px)); overflow: hidden; border: 1px solid var(--border-strong); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow-float); animation: dialog-enter .18s ease-out both; }
+.dialog-backdrop { position: fixed; z-index: 50; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(8, 5, 2, .62); }
+.dialog-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px 17px; border-bottom: 1px solid var(--border); }
+.dialog-header h2 { margin: 0; }
+.dialog-header .icon-button { margin-left: 16px; }
+.form-dialog .form-grid { padding-top: 18px; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: 9px; padding-top: 3px; }
+.confirm-dialog { display: grid; justify-items: center; padding: 28px; text-align: center; }
+.confirm-dialog h2 { margin: 14px 0 5px; }
+.confirm-dialog > p { max-width: 380px; margin: 0; color: var(--text-secondary); }
+.confirm-icon { display: grid; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: var(--danger-bg); color: var(--danger); }
+.confirm-dialog .dialog-actions { width: 100%; justify-content: center; margin-top: 22px; }
+.inline-error { margin: 0; font-size: 12px; }
+@keyframes dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
