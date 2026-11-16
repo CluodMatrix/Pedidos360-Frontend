@@ -85,7 +85,14 @@ Al guardarse el pedido, el backend publica un evento en un topic de SNS que se r
 | `/comprar` | Cliente | Vista de compra con carrito |
 | `/catalogo` | Admin, Operador | Catálogo (Admin: CRUD; Operador: lectura) |
 | `/pedidos` | Admin, Operador, Cliente | Pedidos (Cliente: solo los suyos, sin creación) |
+| `/reportes` | Admin, Operador | KPIs de los eventos: ventas por hora, lead time, top productos, pedidos por estado |
+| `/auditoria` | Admin, Operador | Timeline de cada pedido: quién, qué, cuándo y desde dónde |
 | `/perfil` | autenticado | Perfil y diagnóstico de sesión |
+
+> Las pantallas `/reportes` y `/auditoria` consumen los servicios de solo lectura del
+> proyecto **Pedidos360-Kafka** (report en `:3001`, audit en `:3002`). La URL base se
+> configura con `VITE_REPORT_URL` y `VITE_AUDIT_URL` en el `.env`. El frontend nunca
+> lee Kafka directamente: pide los datos ya calculados a la API del servicio.
 
 ## Flujo de token
 

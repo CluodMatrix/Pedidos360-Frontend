@@ -1,12 +1,12 @@
-// src/api/client.ts
+﻿// src/api/client.ts
 // Cliente HTTP reutilizable para el backend protegido por API Gateway + JWT authorizer.
 // Se encarga de: obtener el access token de Entra (aud = tu API), inyectar el
 // header Authorization, y normalizar errores. Añade rutas nuevas en archivos
 // hermanos (p.ej. src/api/xxxx.ts) usando este cliente.
 
 import type { IPublicClientApplication, AccountInfo } from '@azure/msal-browser';
-import { apiConfig, apiRequest } from '../auth/authConfig';
-import { decodeJwt, rolesOf, scopesOf } from '../utils/jwt';
+import { apiConfig, apiRequest } from '../usuarios/authConfig';
+import { decodeJwt, rolesOf, scopesOf } from '../usuarios/jwt';
 
 interface ApiTokenClaims {
   aud: string | string[] | null;
@@ -96,7 +96,7 @@ let redirectStarted = false;
 
 /**
  * Obtiene un access token para el backend (aud = tu API).
- * - Intenta silenciosamente (acquireTokenSilent → caché de MSAL).
+ * - Intenta silenciosamente (acquireTokenSilent â†’ caché de MSAL).
  * - Si el intento silencioso falla por CUALQUIER motivo (token no
  *   cacheado, iframe bloqueado por cookies de terceros, timeout,
  *   consentimiento nuevo) se pide el token de forma interactiva.

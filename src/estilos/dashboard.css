@@ -1,0 +1,1048 @@
+/*
+ * =====================================================
+ * PEDIDOS360 — PANELES DEL CLIENTE Y ADMINISTRADOR
+ * Archivo: src/estilos/dashboard.css
+ *
+ * Conservamos la sección cliente-* de InicioCliente.tsx.
+ * Más abajo agregamos estilos admin-dashboard EXCLUSIVOS
+ * de PanelAdmin.tsx, para evitar mezclar componentes.
+ *
+ * VOCABULARIO:
+ * grid = cuadrícula; gap = separación; hover = al pasar
+ * el cursor; shadow = sombra; responsive = adaptable.
+ * =====================================================
+ */
+
+/* Estructura general del inicio del cliente. */
+.app-shell .cliente-inicio {
+  display: flex;
+  width: 100%;
+  max-width: 1380px;
+  flex-direction: column;
+  gap: 26px;
+  margin: 0 auto;
+  color: #31165e;
+}
+
+/* Encabezado principal. */
+.app-shell .cliente-inicio .page-header {
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(155, 97, 215, 0.17);
+}
+
+.app-shell .cliente-inicio .page-header h1 {
+  color: #31165e;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(29px, 3.5vw, 43px);
+  font-weight: 850;
+}
+
+.app-shell .cliente-inicio .page-eyebrow {
+  color: #cf37b9;
+  font-weight: 850;
+}
+
+.app-shell .cliente-inicio .page-subtitle {
+  color: #765f9e;
+}
+
+/* =====================================================
+   TARJETA PRINCIPAL DE BIENVENIDA
+   ===================================================== */
+
+.app-shell .cliente-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 330px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(25px, 4vw, 46px);
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 84% 42%,
+      rgba(88, 225, 249, 0.37),
+      transparent 39%
+    ),
+    radial-gradient(
+      circle at 13% 88%,
+      rgba(248, 132, 233, 0.40),
+      transparent 50%
+    ),
+    linear-gradient(
+      120deg,
+      #fceaff 0%,
+      #e9d9ff 55%,
+      #dbf5ff 100%
+    );
+
+  box-shadow: 0 13px 35px rgba(137, 83, 192, 0.15);
+}
+
+/* Resplandor decorativo. */
+.app-shell .cliente-hero::before {
+  position: absolute;
+  z-index: -1;
+  right: -95px;
+  bottom: -160px;
+
+  width: 450px;
+  height: 450px;
+  border: 2px solid rgba(255, 255, 255, 0.48);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 48px rgba(91, 230, 250, 0.28),
+    inset 0 0 32px rgba(255, 109, 231, 0.22);
+
+  content: '';
+}
+
+.app-shell .cliente-hero-copy {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 630px);
+}
+
+.app-shell .cliente-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 9px 15px;
+
+  border: 1px solid rgba(186, 102, 237, 0.42);
+  border-radius: 99px;
+
+  background: rgba(255, 255, 255, 0.65);
+  color: #8642be;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.app-shell .cliente-hero h2 {
+  max-width: 620px;
+  margin: 0 0 15px;
+  color: #2e155d;
+
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(35px, 4.2vw, 56px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.app-shell .cliente-hero h2 span {
+  display: block;
+
+  background: linear-gradient(
+    100deg,
+    #ed50aa,
+    #ac55ed 55%,
+    #33badf
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.app-shell .cliente-hero-copy > p:not(.cliente-seguridad) {
+  max-width: 480px;
+  margin: 0 0 22px;
+  color: #725a91;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* Gatito de bienvenida. */
+.app-shell .cliente-mascota {
+  position: relative;
+  z-index: 1;
+  width: min(32%, 320px);
+  max-height: 295px;
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  filter: drop-shadow(
+    0 18px 20px rgba(123, 59, 173, 0.21)
+  );
+
+  animation: cliente-flotar 5s ease-in-out infinite;
+}
+
+@keyframes cliente-flotar {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* =====================================================
+   BOTONES DE ACCESO
+   ===================================================== */
+
+.app-shell .cliente-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.app-shell .cliente-boton-principal,
+.app-shell .cliente-boton-secundario {
+  display: inline-flex;
+  min-height: 49px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  padding: 12px 19px;
+  border-radius: 13px;
+
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.app-shell .cliente-boton-principal {
+  border: 1px solid #ee8bdf;
+
+  background: linear-gradient(
+    110deg,
+    #f76bc9,
+    #b75df3
+  );
+
+  color: #fff;
+
+  box-shadow: 0 8px 19px rgba(205, 74, 193, 0.25);
+}
+
+.app-shell .cliente-boton-secundario {
+  border: 1px solid rgba(158, 103, 216, 0.55);
+
+  background: rgba(255, 255, 255, 0.66);
+  color: #603296;
+}
+
+.app-shell .cliente-boton-principal:hover,
+.app-shell .cliente-boton-secundario:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(142, 76, 194, 0.24);
+}
+
+.app-shell .cliente-seguridad {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 16px 0 0;
+  color: #765993;
+  font-size: 11px;
+}
+
+/* =====================================================
+   SECCIONES E INDICADORES
+   ===================================================== */
+
+.app-shell .cliente-seccion {
+  display: grid;
+  gap: 17px;
+}
+
+.app-shell .cliente-seccion-encabezado {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.app-shell .cliente-seccion-encabezado h2 {
+  margin: 4px 0 0;
+  color: #2e165b;
+  font-size: clamp(19px, 2vw, 24px);
+}
+
+.app-shell .cliente-indicadores {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.app-shell .cliente-indicador {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+
+  background: #fbe0f6;
+  box-shadow: 0 8px 23px rgba(136, 82, 190, 0.10);
+}
+
+.app-shell .cliente-indicador:nth-child(2) {
+  background: #e8ddff;
+}
+
+.app-shell .cliente-indicador:nth-child(3) {
+  background: #d9f5ff;
+}
+
+.app-shell .cliente-indicador-icono {
+  display: grid;
+  width: 51px;
+  height: 51px;
+  flex: 0 0 51px;
+  place-items: center;
+
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fb84d8, #d950bc);
+  color: #fff;
+}
+
+.app-shell .cliente-indicador:nth-child(2)
+.cliente-indicador-icono {
+  background: linear-gradient(135deg, #c39aff, #8954de);
+}
+
+.app-shell .cliente-indicador:nth-child(3)
+.cliente-indicador-icono {
+  background: linear-gradient(135deg, #69e8f7, #1bbde5);
+}
+
+.app-shell .cliente-indicador div {
+  display: grid;
+  gap: 4px;
+}
+
+.app-shell .cliente-indicador small {
+  color: #6f538f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.app-shell .cliente-indicador strong {
+  color: #301561;
+  font-size: 30px;
+  font-weight: 900;
+}
+
+/* =====================================================
+   PEDIDOS RECIENTES
+   ===================================================== */
+
+.app-shell .cliente-pedidos-recientes {
+  display: grid;
+  gap: 10px;
+}
+
+.app-shell .cliente-pedido {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  padding: 19px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.91);
+  border-radius: 17px;
+
+  background: rgba(255, 255, 255, 0.69);
+  box-shadow: 0 7px 17px rgba(133, 80, 182, 0.09);
+}
+
+.app-shell .cliente-pedido-info {
+  display: grid;
+  gap: 5px;
+}
+
+.app-shell .cliente-pedido-info strong {
+  color: #32185f;
+  font-size: 14px;
+}
+
+.app-shell .cliente-pedido-info small {
+  color: #7c659a;
+  font-size: 11px;
+}
+
+.app-shell .cliente-pedido-total {
+  color: #5f2b9e;
+  font-size: 17px;
+}
+
+/* Indicador de estado reutilizado desde PedidoEstado.tsx. */
+.app-shell .cliente-pedido .status-badge {
+  border-radius: 99px;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* =====================================================
+   MENSAJES, ESTADOS VACÍOS Y ACTUALIZAR
+   ===================================================== */
+
+.app-shell .cliente-vacio {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 40px 20px;
+
+  border: 1px dashed rgba(164, 108, 218, 0.44);
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.56);
+  color: #8c49bb;
+  text-align: center;
+}
+
+.app-shell .cliente-vacio h3 {
+  color: #331865;
+}
+
+.app-shell .cliente-vacio p {
+  color: #78608e;
+}
+
+.app-shell .cliente-aviso {
+  padding: 18px;
+  border: 1px solid rgba(166, 112, 222, 0.25);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.69);
+  color: #5e4185;
+}
+
+.app-shell .cliente-aviso-error {
+  border-color: #efa2bf;
+  background: #ffe8f0;
+  color: #943d65;
+}
+
+.app-shell .cliente-actualizar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+
+  border: 1px solid rgba(167, 111, 218, 0.40);
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.76);
+  color: #643c96;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.app-shell .cliente-actualizar:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.app-shell .cliente-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  border: 0;
+  background: transparent;
+  color: #a638b6;
+
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.app-shell .cliente-enlace:hover {
+  text-decoration: underline;
+}
+
+
+/* Inspector de permisos: versión lavanda. */
+.app-shell .token-surface {
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: linear-gradient(125deg, #fff2ff, #e9e4ff);
+  color: #31165e;
+  box-shadow: 0 9px 23px rgba(126, 75, 177, 0.14);
+}
+
+.app-shell .token-surface h2,
+.app-shell .token-surface h3,
+.app-shell .token-surface p {
+  color: #3b216c;
+}
+
+.app-shell .token-surface .subtitle {
+  color: #755b96;
+}
+
+.app-shell .token-surface .token-grid > div {
+  min-width: 0;
+  border: 1px solid rgba(168, 118, 218, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.68);
+  color: #482774;
+}
+
+.app-shell .token-surface code,
+.app-shell .token-surface pre {
+  color: #46246f;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* =====================================================
+   ADAPTACIÓN A PANTALLAS PEQUEÑAS
+   ===================================================== */
+
+@media (max-width: 1000px) {
+  .app-shell .cliente-mascota {
+    width: 28%;
+  }
+}
+
+@media (max-width: 700px) {
+  .app-shell .cliente-hero {
+    min-height: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 27px 23px;
+  }
+
+  .app-shell .cliente-hero-copy {
+    width: 100%;
+  }
+
+  .app-shell .cliente-hero h2 {
+    font-size: clamp(32px, 8vw, 46px);
+  }
+
+  .app-shell .cliente-mascota {
+    width: min(70%, 230px);
+    max-height: 210px;
+    align-self: center;
+  }
+
+  .app-shell .cliente-indicadores {
+    grid-template-columns: 1fr;
+  }
+
+  .app-shell .cliente-seccion-encabezado {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .app-shell .cliente-pedido {
+    padding: 17px;
+  }
+}
+
+@media (max-width: 430px) {
+  .app-shell .cliente-acciones {
+    flex-direction: column;
+  }
+
+  .app-shell .cliente-boton-principal,
+  .app-shell .cliente-boton-secundario {
+    width: 100%;
+  }
+}
+
+/* Respeta la preferencia de reducir animaciones. */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .cliente-mascota {
+    animation: none;
+  }
+
+  .app-shell .cliente-boton-principal,
+  .app-shell .cliente-boton-secundario {
+    transition: none;
+  }
+}
+
+/* ==================================================================
+   PEDIDOS360 — DASHBOARD DE ADMINISTRACIÓN / VERSIÓN CORREGIDA
+   Archivo: src/estilos/dashboard.css
+
+   IMPORTANTE:
+   - Se conserva arriba el CSS del panel del Cliente sin modificaciones.
+   - Este bloque controla solamente PanelAdmin.tsx (.admin-dashboard).
+   - No cambia los roles de Microsoft ni las consultas a AWS.
+
+   ¿POR QUÉ SE VEÍA TODO APLASTADO?
+   .admin-dashboard es la sección que contiene CUATRO BLOQUES:
+   PageHeader, admin-top-grid, admin-stats-section y admin-token-section.
+   Si el contenedor hereda una cuadrícula de varias columnas, esos
+   bloques se colocan uno junto a otro y quedan estrechos.
+
+   SOLUCIÓN: forzar una única COLUMNA VERTICAL en el contenedor.
+   Dentro de admin-top-grid sí usamos dos columnas, y dentro de
+   stat-grid cuatro indicadores (cuando existe espacio suficiente).
+
+   VOCABULARIO:
+   flex = distribución flexible; grid = cuadrícula; gap = separación;
+   width = ancho; min-width = ancho mínimo; overflow = desbordamiento;
+   responsive = adaptable; shadow = sombra; hover = pasar el cursor.
+   ================================================================== */
+
+/* 1. ESTRUCTURA: cuatro secciones, una debajo de otra.
+   !important se limita a display/flex-direction porque queremos que
+   estas reglas prevalezcan si page-stack u otro CSS usa display:grid. */
+.app-shell .page-content > .admin-dashboard,
+.app-shell .admin-dashboard {
+  --admin-rosa: #fce4f7;
+  --admin-lila: #eae0ff;
+  --admin-cian: #d9f5ff;
+  --admin-rosa-vivo: #d94fb6;
+  --admin-morado: #9456e8;
+  --admin-celeste: #25bde5;
+  --admin-texto: #301858;
+  --admin-secundario: #6d588e;
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  gap: 26px;
+  margin: 0;
+  color: var(--admin-texto);
+}
+
+/* Todos los bloques principales usan el ancho del contenido. */
+.app-shell .admin-dashboard > .page-header,
+.app-shell .admin-dashboard > .admin-top-grid,
+.app-shell .admin-dashboard > .admin-stats-section,
+.app-shell .admin-dashboard > .admin-token-section {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+}
+
+/* 2. CABECERA: título y descripción sin recortes. */
+.app-shell .admin-dashboard > .page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid rgba(138, 92, 192, .19);
+}
+.app-shell .admin-dashboard .page-header h1 {
+  margin: 5px 0 8px;
+  color: var(--admin-texto);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 850;
+  letter-spacing: -.035em;
+  line-height: 1.17;
+}
+.app-shell .admin-dashboard .page-eyebrow {
+  color: #ca38af;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: .13em;
+}
+.app-shell .admin-dashboard .page-subtitle {
+  margin: 0;
+  color: var(--admin-secundario);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* 3. PRIMERA FILA: sesión (izquierda) y accesos (derecha).
+   Cada área tiene espacio propio; NO comparten fila con los KPIs. */
+.app-shell .admin-dashboard > .admin-top-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.07fr) minmax(0, .93fr);
+  align-items: stretch;
+  gap: 20px;
+}
+.app-shell .admin-dashboard .admin-top-grid > * {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+}
+
+/* 4. TARJETA DE SESIÓN: gatito estático, nombre, correo y rol. */
+.app-shell .admin-dashboard .admin-session-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 183px;
+  gap: 18px;
+  padding: clamp(19px, 2vw, 29px);
+  border: 1px solid rgba(255, 255, 255, .96);
+  border-radius: 24px;
+  background: linear-gradient(116deg, #fff5ff 0%, #f3e5ff 52%, #e8dcff 100%);
+  box-shadow: 0 14px 30px rgba(119, 77, 176, .13);
+}
+.app-shell .admin-dashboard .dashboard-welcome-copy {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 19px;
+}
+.app-shell .admin-dashboard .admin-avatar-frame {
+  display: grid;
+  flex: 0 0 91px;
+  width: 91px;
+  height: 91px;
+  place-items: center;
+  overflow: hidden;
+  padding: 7px;
+  border: 2px solid #fff;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #f3b9ff, #b8eafb);
+  box-shadow: 0 9px 22px rgba(130, 75, 185, .2);
+}
+.app-shell .admin-dashboard .admin-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Sin movimiento: la mascota queda quieta como pediste. */
+  animation: none;
+}
+.app-shell .admin-dashboard .admin-session-details {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.app-shell .admin-dashboard .admin-session-details .card-overline {
+  margin: 0 0 7px;
+  color: #ba368e;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+.app-shell .admin-dashboard .admin-session-details h2 {
+  margin: 0 0 6px;
+  color: var(--admin-texto);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(17px, 1.42vw, 22px);
+  font-weight: 850;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.app-shell .admin-dashboard .admin-session-details .muted-copy {
+  margin: 0;
+  color: var(--admin-secundario);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere; /* Solo el correo puede cortarse si es largo. */
+}
+.app-shell .admin-dashboard .role-list {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-shell .admin-dashboard .role-chip {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 14px;
+  border: 1px solid #ffd17d;
+  border-radius: 999px;
+  background: #fff0c5;
+  box-shadow: 0 4px 12px rgba(176, 125, 57, .10);
+  color: #83501a;
+  font-size: 12px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+/* 5. ACCESOS: dos tarjetas legibles, con iconos de buen tamaño. */
+.app-shell .admin-dashboard .admin-quick-section,
+.app-shell .admin-dashboard .admin-stats-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  gap: 14px;
+}
+.app-shell .admin-dashboard .section-heading {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.app-shell .admin-dashboard .section-heading .page-eyebrow {
+  margin-bottom: 3px;
+}
+.app-shell .admin-dashboard .section-heading h2 {
+  margin: 3px 0 0;
+  color: var(--admin-texto);
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  font-size: clamp(20px, 1.7vw, 24px);
+  font-weight: 850;
+  line-height: 1.2;
+}
+.app-shell .admin-dashboard .shortcut-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.app-shell .admin-dashboard .shortcut-card {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  min-width: 0;
+  min-height: 117px;
+  gap: 12px;
+  padding: 17px 14px;
+  border: 1px solid rgba(255, 255, 255, .96);
+  border-radius: 21px;
+  background: linear-gradient(120deg, #fff0ff 0%, #e6eaff 100%);
+  box-shadow: 0 9px 24px rgba(134, 83, 185, .12);
+  color: var(--admin-texto);
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.app-shell .admin-dashboard .shortcut-card:nth-child(2) {
+  background: linear-gradient(120deg, #eff1ff 0%, #d9f4ff 100%);
+}
+.app-shell .admin-dashboard .shortcut-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 13px 27px rgba(120, 77, 185, .18);
+}
+.app-shell .admin-dashboard .shortcut-card,
+.app-shell .admin-dashboard .shortcut-card * {
+  text-decoration: none; /* Elimina el subrayado heredado. */
+}
+.app-shell .admin-dashboard .shortcut-icon {
+  display: grid;
+  flex: 0 0 53px;
+  width: 53px;
+  height: 53px;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #df74f7, #9253ed);
+  box-shadow: 0 8px 16px rgba(132, 72, 194, .22);
+  color: white;
+}
+.app-shell .admin-dashboard .shortcut-card:nth-child(2) .shortcut-icon {
+  background: linear-gradient(135deg, #63e4f5, #21b9e7);
+}
+.app-shell .admin-dashboard .shortcut-icon svg,
+.app-shell .admin-dashboard .stat-icon svg {
+  display: block;
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  stroke: currentColor;
+}
+.app-shell .admin-dashboard .shortcut-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+  line-height: 1.3;
+}
+.app-shell .admin-dashboard .shortcut-copy strong {
+  color: var(--admin-texto);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.3;
+  overflow-wrap: normal;
+}
+.app-shell .admin-dashboard .shortcut-copy small {
+  color: var(--admin-secundario);
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: normal;
+}
+.app-shell .admin-dashboard .shortcut-arrow {
+  flex: 0 0 17px;
+  margin-left: auto;
+  color: #8356c1;
+}
+.app-shell .admin-dashboard .shortcut-card:focus-visible {
+  outline: 3px solid #9253e5;
+  outline-offset: 3px;
+}
+
+/* 6. ESTADO DEL NEGOCIO: sección aparte en TODO el ancho. */
+.app-shell .admin-dashboard > .admin-stats-section {
+  width: 100%;
+  gap: 16px;
+}
+.app-shell .admin-dashboard .stat-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.app-shell .admin-dashboard .stat-card {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  min-width: 0;
+  min-height: 123px;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, .96);
+  border-radius: 22px;
+  background: var(--admin-rosa);
+  box-shadow: 0 9px 22px rgba(134, 86, 182, .12);
+  transition: transform .18s ease;
+}
+.app-shell .admin-dashboard .stat-card:nth-child(2) { background: var(--admin-lila); }
+.app-shell .admin-dashboard .stat-card:nth-child(3) { background: var(--admin-cian); }
+.app-shell .admin-dashboard .stat-card:nth-child(4) { background: #ffe5f0; }
+.app-shell .admin-dashboard .stat-card:hover { transform: translateY(-2px); }
+.app-shell .admin-dashboard .stat-icon {
+  display: grid;
+  flex: 0 0 59px;
+  width: 59px;
+  height: 59px;
+  place-items: center;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #ff81d1, #d84eb2);
+  box-shadow: 0 7px 16px rgba(179, 76, 159, .2);
+  color: white;
+}
+.app-shell .admin-dashboard .stat-card:nth-child(2) .stat-icon { background: linear-gradient(135deg, #c496ff, #9256e4); }
+.app-shell .admin-dashboard .stat-card:nth-child(3) .stat-icon { background: linear-gradient(135deg, #65e3f4, #1ebbe5); }
+.app-shell .admin-dashboard .stat-card:nth-child(4) .stat-icon { background: linear-gradient(135deg, #ffa1cf, #ef6aab); }
+.app-shell .admin-dashboard .stat-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+.app-shell .admin-dashboard .stat-copy small {
+  color: #72588f;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.app-shell .admin-dashboard .stat-copy strong {
+  color: var(--admin-texto);
+  font-size: clamp(27px, 2.2vw, 35px);
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+/* 7. INSPECTOR DEL TOKEN: un bloque ancho, sin límite de 700px.
+   TokenInspector.tsx sigue siendo solo para desarrollo (DEV). */
+.app-shell .admin-dashboard > .admin-token-section {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  padding: clamp(21px, 2.7vw, 34px);
+  border: 1px solid rgba(255, 255, 255, .96);
+  border-radius: 25px;
+  background: linear-gradient(115deg, #fff2ff 0%, #ede9ff 58%, #e1f6ff 100%);
+  box-shadow: 0 12px 26px rgba(133, 79, 182, .12);
+  color: var(--admin-texto);
+}
+.app-shell .admin-dashboard .admin-token-section > .token-inspector,
+.app-shell .admin-dashboard .admin-token-section > section {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+/* Compatibilidad con la versión anterior y con la versión actual
+   de TokenInspector.tsx. En ambas la información puede ocupar todo. */
+.app-shell .admin-dashboard .admin-token-section .token-grid {
+  width: 100%;
+  min-width: 0;
+}
+.app-shell .admin-dashboard .admin-token-section .token-grid > div {
+  min-width: 0;
+}
+.app-shell .admin-dashboard .admin-token-section code,
+.app-shell .admin-dashboard .admin-token-section pre {
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* 8. ADAPTACIÓN: nunca obligamos al contenido a caber en columnas
+   demasiado estrechas. Se mantiene el scroll vertical normal. */
+@media (max-width: 1450px) {
+  .app-shell .admin-dashboard .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1250px) {
+  .app-shell .admin-dashboard > .admin-top-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .app-shell .admin-dashboard .admin-quick-section .shortcut-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .app-shell .admin-dashboard {
+    gap: 20px;
+  }
+  .app-shell .admin-dashboard .admin-session-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    min-height: 0;
+  }
+  .app-shell .admin-dashboard .role-list { justify-content: flex-start; }
+  .app-shell .admin-dashboard .admin-quick-section .shortcut-grid {
+    grid-template-columns: 1fr;
+  }
+  .app-shell .admin-dashboard .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .app-shell .admin-dashboard .stat-card { min-height: 105px; padding: 15px; }
+  .app-shell .admin-dashboard .stat-icon { width: 49px; height: 49px; flex-basis: 49px; }
+  .app-shell .admin-dashboard .admin-avatar-frame { width: 70px; height: 70px; flex-basis: 70px; border-radius: 20px; }
+}
+@media (max-width: 480px) {
+  .app-shell .admin-dashboard .stat-grid { grid-template-columns: 1fr; }
+  .app-shell .admin-dashboard .admin-session-card { flex-direction: column; }
+  .app-shell .admin-dashboard .role-list { width: 100%; }
+  .app-shell .admin-dashboard .admin-session-details h2 { font-size: 17px; }
+  .app-shell .admin-dashboard .shortcut-card { min-height: 95px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .admin-dashboard .shortcut-card,
+  .app-shell .admin-dashboard .stat-card { transition: none; }
+  .app-shell .admin-dashboard .shortcut-card:hover,
+  .app-shell .admin-dashboard .stat-card:hover { transform: none; }
+}
